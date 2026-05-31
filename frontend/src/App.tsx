@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Activity, Code2, FileJson, Puzzle, Settings, Terminal, Wand2 } from "lucide-react"
+import { Activity, Code2, FileJson, Moon, Puzzle, Settings, Sun, Terminal, Wand2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ConfigAnalyzer } from "@/components/config-analyzer/ConfigAnalyzer"
@@ -12,10 +12,33 @@ const features = [
   { id: "mcp-analyzer", label: "MCP Analyzer", icon: Activity, implemented: false },
 ]
 
+function useTheme() {
+  const [theme, setTheme] = useState<"dark" | "light">(() => {
+    const stored = localStorage.getItem("theme")
+    if (stored === "light" || stored === "dark") return stored
+    return "dark"
+  })
+
+  useEffect(() => {
+    const root = document.documentElement
+    if (theme === "dark") {
+      root.classList.add("dark")
+    } else {
+      root.classList.remove("dark")
+    }
+    localStorage.setItem("theme", theme)
+  }, [theme])
+
+  const toggle = () => setTheme((t) => (t === "dark" ? "light" : "dark"))
+
+  return [theme, toggle] as const
+}
+
 function App() {
   const [activeFeature, setActiveFeature] = useState(features[0].id)
   const [backendStatus, setBackendStatus] = useState<"loading" | "ok" | "error">("loading")
   const [clearKey, setClearKey] = useState(0)
+  const [theme, toggleTheme] = useTheme()
 
   useEffect(() => {
     fetch("/api/health")
@@ -55,6 +78,14 @@ function App() {
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={() => setClearKey((k) => k + 1)}>
             Clear All Data
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            title={theme === "dark" ? "Switch to light" : "Switch to dark"}
+          >
+            {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </Button>
           <Button variant="ghost" size="icon">
             <Settings className="size-4" />

@@ -86,3 +86,6 @@
   and global copies; audits 8 tracking files for stale references after any
   change batch (files: .opencode/commands/update-relevant-files.md,
   ~/.config/opencode/command/update-relevant-files.md, AGENTS.md, DONE.md)
+- [2026-05-31] Added dark/light theme toggle: `useTheme` hook (dark default,
+  localStorage persistence), sun/moon button in header, flash-prevention script
+  in index.html (files: frontend/src/App.tsx, frontend/index.html, DONE.md)
