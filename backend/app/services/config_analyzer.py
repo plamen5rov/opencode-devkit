@@ -34,9 +34,55 @@ def _sanitize_json(text: str) -> str:
 
 
 def _strip_jsonc_comments(text: str) -> str:
-    """Strip single-line and block comments from JSONC, plus trailing commas."""
-    text = re.sub(r"/\*[\s\S]*?\*/", "", text)
-    text = re.sub(r"//.*", "", text)
+    """Strip block and line comments from JSONC, tracking string state so that
+    '//' inside string values (e.g. URLs) is never treated as a comment."""
+    result: list[str] = []
+    i = 0
+    n = len(text)
+    in_string = False
+    string_char = ""
+
+    while i < n:
+        ch = text[i]
+
+        if in_string:
+            if ch == "\\":
+                result.append(ch)
+                if i + 1 < n:
+                    i += 1
+                    result.append(text[i])
+            elif ch == string_char:
+                in_string = False
+                result.append(ch)
+            else:
+                result.append(ch)
+            i += 1
+            continue
+
+        if ch in ('"', "'"):
+            in_string = True
+            string_char = ch
+            result.append(ch)
+            i += 1
+            continue
+
+        if ch == "/" and i + 1 < n:
+            if text[i + 1] == "/":
+                i += 2
+                while i < n and text[i] != "\n":
+                    i += 1
+                continue
+            if text[i + 1] == "*":
+                i += 2
+                while i + 1 < n and not (text[i] == "*" and text[i + 1] == "/"):
+                    i += 1
+                i += 2
+                continue
+
+        result.append(ch)
+        i += 1
+
+    text = "".join(result)
     text = re.sub(r",\s*([}\]])", r"\1", text)
     return text
 
