@@ -46,10 +46,15 @@ When you change anything, update all affected project docs:
 
 Documentation must never lag behind implementation or decisions.
 
-### After each commit
+### Commit often
 
-Log changes to `DONE.md` at the repo root. Categorize under
-Added / Changed / Fixed / Removed with the date.
+After every major batch of changes, without being reminded:
+1. Update `DONE.md` with dated bullets
+2. Stage all changes (`git add -A`)
+3. Write a conventional commit (`feat:`, `docs:`, `chore:`, etc.)
+4. Push to remote (`git push`)
+
+Do this proactively — do not wait for the user to ask.
 
 ### Markdown quality
 

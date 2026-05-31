@@ -15,3 +15,5 @@
   Vite/Tailwind/shadcn connections; updated .gitignore for graphify artifacts
   (files: graphify-out/graph.html, graphify-out/GRAPH_REPORT.md,
   graphify-out/graph.json, .gitignore)
+- [2026-05-31] Updated AGENTS.md: replaced passive "After each commit" section
+  with proactive "Commit often" convention (files: AGENTS.md)
