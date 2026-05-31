@@ -151,7 +151,7 @@ export function ConfigAnalyzer() {
             </div>
           )}
 
-          <div className="flex items-center gap-2">
+          <div className="flex gap-2">
             <button
               type="button"
               onClick={() => setView("audit")}
@@ -187,18 +187,6 @@ export function ConfigAnalyzer() {
                 }`}
               >
                 Optimized
-              </button>
-            )}
-            <div className="flex-1" />
-            {result.optimized_config && (
-              <button
-                type="button"
-                onClick={() => downloadJSON(result.optimized_config!, "opencode-optimized.json")}
-                title="Download optimized config"
-                className="inline-flex items-center gap-1 rounded-md border bg-background px-2 py-1.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <Download className="size-3" />
-                Download
               </button>
             )}
           </div>
