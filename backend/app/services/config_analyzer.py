@@ -21,6 +21,18 @@ from app.schemas.config import (
 )
 
 
+def _sanitize_json(text: str) -> str:
+    """Strip BOM, zero-width spaces, and other invisible characters commonly
+    introduced by copy-paste that break JSON parsers."""
+    # Strip BOM
+    text = text.lstrip("\ufeff")
+    # Strip zero-width spaces, non-breaking spaces, left-to-right marks, etc.
+    text = re.sub(r"[\u200b-\u200f\u2028-\u202f\ufeff\u00a0]", "", text)
+    # Replace other C0 control chars (except \t, \n, \r which JSON allows)
+    text = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", "", text)
+    return text
+
+
 def _strip_jsonc_comments(text: str) -> str:
     """Strip single-line and block comments from JSONC, plus trailing commas."""
     text = re.sub(r"/\*[\s\S]*?\*/", "", text)
@@ -29,15 +41,40 @@ def _strip_jsonc_comments(text: str) -> str:
     return text
 
 
+def _format_parse_error(raw: str, e: json.JSONDecodeError) -> str:
+    """Build a user-friendly parse error message showing the problematic area."""
+    lines = raw.split("\n")
+    if 1 <= e.lineno <= len(lines):
+        line = lines[e.lineno - 1]
+        start = max(0, e.colno - 20)
+        end = min(len(line), e.colno + 20)
+        snippet = line[start:end]
+        marker_idx = e.colno - start - 1
+        marker = " " * max(0, marker_idx) + "^"
+        return (
+            f"JSON parse error at line {e.lineno}, col {e.colno}: {e.msg}\n"
+            f"  …{snippet}…\n"
+            f"  {marker}"
+        )
+    return f"JSON parse error at line {e.lineno}, col {e.colno}: {e.msg}"
+
+
 def parse_config(raw: str) -> tuple[dict[str, Any] | None, list[str]]:
     """Parse a raw JSON/JSONC string into a dict. Returns (parsed, errors)."""
     errors: list[str] = []
+    cleaned = _sanitize_json(raw.strip())
+    cleaned = _strip_jsonc_comments(cleaned)
     try:
-        cleaned = _strip_jsonc_comments(raw.strip())
         config = json.loads(cleaned)
         return config, errors
     except json.JSONDecodeError as e:
-        errors.append(f"JSON parse error at line {e.lineno}, col {e.colno}: {e.msg}")
+        errors.append(_format_parse_error(raw, e))
+    # Retry with non-strict mode (allows control chars in strings)
+    try:
+        config = json.loads(cleaned, strict=False)
+        return config, errors
+    except json.JSONDecodeError as e:
+        errors.append(_format_parse_error(raw, e))
     return None, errors
 
 
