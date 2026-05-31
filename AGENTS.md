@@ -49,6 +49,7 @@ Documentation must never lag behind implementation or decisions.
 ### Commit often
 
 After every major batch of changes, without being reminded:
+
 1. Update `DONE.md` with dated bullets
 2. Stage all changes (`git add -A`)
 3. Write a conventional commit (`feat:`, `docs:`, `chore:`, etc.)
@@ -71,4 +72,16 @@ newline). Use the `markdown-lint` skill when writing or editing `.md` files.
 | `markdown-lint` | Writing or editing any `.md` file |
 | `opencode-config` | Working with any `opencode.json` file |
 | `readme-guide` | Writing or improving `README.md` |
+| `graphify` | Building/querying the project knowledge graph |
 | `done-md-logger` / `github-commit` | After each commit |
+| `readme-update` | After commit+push, check if README needs updating |
+
+## Useful slash commands
+
+| Command | Purpose |
+| ------- | ------- |
+| `/graphify` | Build or query the knowledge graph |
+| `/log-n-push` | Update DONE.md, commit, push |
+| `/session-recap` | Summarize session: what changed, what remains |
+| `/pr-summary` | Summarize changes for a PR or handoff |
+| `/repo-scan` | Inspect repo structure and report findings |
