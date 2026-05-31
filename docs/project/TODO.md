@@ -2,14 +2,13 @@
 
 Pending items, ideas, and deferred work.
 
-## Phase I
+## Phase I (complete)
 
-- [ ] Write a proper `README.md` with quickstart and project overview
+- [x] Write a proper `README.md` with quickstart and project overview
 - [ ] Add `CHANGELOG.md` if `DONE.md` format proves insufficient
-- [ ] Set up Python linting (Ruff), typechecking (Pyright), and formatting
-- [ ] Set up frontend linting (ESLint), typechecking (tsc), and formatting
-  (Prettier)
-- [ ] Add pre-commit hooks
+- [x] Set up Python linting (ruff), typechecking (mypy), and formatting
+- [x] Set up frontend linting (ESLint), typechecking (tsc), and formatting
+- [x] Add pre-commit hooks
 
 ## Phase II+
 

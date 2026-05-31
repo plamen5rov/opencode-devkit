@@ -55,3 +55,48 @@ tree for simpler navigation and tooling.
 **Date**: 2026-05-31
 **Reason**: Simpler, session-oriented logging. Conventional `CHANGELOG.md` can
 be added later if the project grows to need release-versioned changelogs.
+
+---
+
+## Python packaging: `pyproject.toml` (not `requirements.txt`)
+
+**Date**: 2026-05-31
+**Reason**: Single file for project metadata, dependencies (with dev groups via
+`[project.optional-dependencies]`), and tool configs (ruff, mypy, pytest) —
+replacing `setup.py`, `setup.cfg`, `requirements-dev.txt`, and separate tool
+config files.
+
+Alternatives considered:
+
+- `requirements.txt` — flat list only, requires separate files for dev deps
+  and tool configs; no project metadata support
+
+---
+
+## JS package manager: pnpm (not npm or yarn)
+
+**Date**: 2026-05-31
+**Reason**: Strict dependency resolution catches missing imports at install time;
+content-addressable global store saves disk space (up to 10x); best-in-class
+monorepo workspace support if the project grows.
+
+Alternatives considered:
+
+- npm — allows phantom dependencies and hoisting, less strict
+- yarn — faster than classic npm but similar dependency resolution model
+
+---
+
+## Project layout: separate `backend/` and `frontend/` (not monorepo)
+
+**Date**: 2026-05-31
+**Reason**: Only two applications — a Python backend and a JS frontend.
+Monorepo tools (Turborepo, Nx) add unnecessary complexity for this scale.
+A thin root `package.json` with convenience scripts keeps things simple
+while remaining easy to migrate to pnpm workspaces later.
+
+Alternatives considered:
+
+- Turborepo/Nx — powerful but heavy; requires JS-centric tooling that doesn't
+  benefit the Python backend
+- Full pnpm workspaces — overkill for two packages with different runtimes
