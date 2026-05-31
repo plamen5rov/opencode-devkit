@@ -14,10 +14,16 @@ for auditing, analyzing, and optimizing OpenCode config files.
 | File | Purpose |
 | ---- | ------- |
 | `docs/project/OpenCode-DevKit-Project.md` | Vision, features, stack, phases |
+| `docs/project/PHASES.md` | Phase-by-phase roadmap |
+| `docs/project/TASKS.md` | Active task checklist for current phase |
+| `docs/project/TODO.md` | Pending items and deferred ideas |
+| `docs/project/DECISIONS.md` | Architecture decision log |
 | `docs/project/additional-files.md` | Why CHANGELOG/PHASES/DECISIONS belong |
 | `docs/knowledge/` | Copies of official OpenCode docs — **read-only, do not edit** |
+| `docs/library/` | Sample skills, commands, tools for reference |
 | `opencode.json` | Project-specific OpenCode config |
 | `AGENTS.md` | This file |
+| `DONE.md` | Session-based changelog |
 | `README.md` | Needs writing (currently placeholder) |
 
 ---
