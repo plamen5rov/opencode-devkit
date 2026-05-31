@@ -69,10 +69,13 @@ Do this proactively — do not wait for the user to ask.
 
 ### Permissions
 
-Do not ask for permission on routine actions (edit, read, glob, grep, git,
-python3, mkdir, markdownlint). Only ask for hazardous actions: removing files
-(`rm`, `rmdir`), installing packages (`pip install`, `npm install`), or running
-unfamiliar commands. The `opencode.json` already encodes these rules.
+Do not ask for permission on routine actions: edit, read, glob, grep, git,
+python3, mkdir, markdownlint, ruff, mypy, npm, npx, pnpm, tsc, eslint.
+Test/verify commands (lint, typecheck, format) are pre-granted.
+
+Only ask for hazardous actions: removing files (`rm`, `rmdir`), installing
+packages (`pip install`, `pnpm add`), or running unfamiliar commands.
+The `opencode.json` already encodes these rules.
 
 ### Markdown quality
 

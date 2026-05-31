@@ -23,8 +23,12 @@
       "cat *": "allow",
       "curl *": "allow",
       "mkdir *": "allow",
-      "source .devkit/bin/activate && *": "allow",
-      "npx markdownlint-cli2 *": "allow"
+      "ruff *": "allow",
+      "mypy *": "allow",
+      "npm *": "allow",
+      "npx *": "allow",
+      "pnpm *": "allow",
+      "source .devkit/bin/activate && *": "allow"
     }
   },
   "watcher": {
