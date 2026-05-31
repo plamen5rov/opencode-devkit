@@ -6,7 +6,7 @@ import { AuditResults } from "@/components/config-analyzer/AuditResults"
 import { DiffView } from "@/components/config-analyzer/DiffView"
 import { Download, RotateCcw, Copy, Check } from "lucide-react"
 
-type View = "audit" | "diff" | "optimized"
+type View = "audit" | "diff" | "optimize"
 
 function downloadJSON(data: Record<string, unknown>, filename: string) {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })
@@ -77,7 +77,7 @@ export function ConfigAnalyzer() {
   }
 
   const showDiff = diffResult && diffResult.changes.length > 0
-  const showOptimized = Boolean(result?.optimized_config)
+  const showOptimize = Boolean(result?.optimized_config)
 
   return (
     <div className="space-y-4">
@@ -105,52 +105,6 @@ export function ConfigAnalyzer() {
 
       {result && result.is_valid_jsonc && (
         <div className="space-y-3">
-          {view === "audit" && (
-            <AuditResults
-              schemaErrors={result.schema_errors}
-              securityIssues={result.security_issues}
-              securitySummary={result.security_summary}
-              missingSettings={result.missing_settings}
-              optimizations={result.optimizations}
-            />
-          )}
-
-          {view === "diff" && diffResult && (
-            <DiffView
-              changes={diffResult.changes}
-              originalLabel="Original"
-              modifiedLabel="Optimized"
-            />
-          )}
-
-          {view === "optimized" && result.optimized_config && (
-            <div>
-              <div className="mb-3 flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleCopy(result.optimized_config!)}
-                  className="inline-flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-                >
-                  {copied ? <Check className="size-3 text-green-500" /> : <Copy className="size-3" />}
-                  {copied ? "Copied" : "Copy"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => downloadJSON(result.optimized_config!, "opencode-optimized.json")}
-                  className="inline-flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-                >
-                  <Download className="size-3" />
-                  Download
-                </button>
-              </div>
-              <div className="rounded-md border bg-muted/50 p-4">
-                <pre className="whitespace-pre-wrap text-xs">
-                  {JSON.stringify(result.optimized_config, null, 2)}
-                </pre>
-              </div>
-            </div>
-          )}
-
           <div className="flex gap-2">
             <button
               type="button"
@@ -176,20 +130,66 @@ export function ConfigAnalyzer() {
                 Diff ({diffResult!.changes.length})
               </button>
             )}
-            {showOptimized && (
+            {showOptimize && (
               <button
                 type="button"
-                onClick={() => setView("optimized")}
+                onClick={() => setView("optimize")}
                 className={`rounded-md px-4 py-1.5 text-xs font-medium transition-colors ${
-                  view === "optimized"
+                  view === "optimize"
                     ? "bg-primary text-primary-foreground"
                     : "border bg-background text-muted-foreground hover:bg-muted"
                 }`}
               >
-                Optimized
+                Optimize
               </button>
             )}
           </div>
+
+          {view === "audit" && (
+            <AuditResults
+              schemaErrors={result.schema_errors}
+              securityIssues={result.security_issues}
+              securitySummary={result.security_summary}
+              missingSettings={result.missing_settings}
+              optimizations={result.optimizations}
+            />
+          )}
+
+          {view === "diff" && diffResult && (
+            <DiffView
+              changes={diffResult.changes}
+              originalLabel="Original"
+              modifiedLabel="Optimized"
+            />
+          )}
+
+          {view === "optimize" && result.optimized_config && (
+            <div>
+              <div className="rounded-md border bg-muted/50 p-4">
+                <pre className="whitespace-pre-wrap text-xs">
+                  {JSON.stringify(result.optimized_config, null, 2)}
+                </pre>
+              </div>
+              <div className="mt-3 flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleCopy(result.optimized_config!)}
+                  className="inline-flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  {copied ? <Check className="size-3 text-green-500" /> : <Copy className="size-3" />}
+                  {copied ? "Copied" : "Copy"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => downloadJSON(result.optimized_config!, "opencode-optimized.json")}
+                  className="inline-flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  <Download className="size-3" />
+                  Download
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
