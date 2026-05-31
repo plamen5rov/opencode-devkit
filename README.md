@@ -4,9 +4,9 @@
 
 ## Overview
 
-OpenCode DevKit ingests `opencode.json` config files and provides structured audits: security risks, missing settings, skill completeness, and more. It is built as a full-stack web application with a FastAPI backend and a React/Vite frontend, scaffolded during **Phase I — Initialization**. Feature implementation begins in Phase II.
+OpenCode DevKit ingests `opencode.json` config files and provides structured audits: security risks, missing settings, skill completeness, and more. It is built as a full-stack web application with a FastAPI backend and a React/Vite frontend.
 
-**Current status**: Phase I complete — both backend and frontend scaffolds are in place with linting, typechecking, and end-to-end communication verified. No production features exist yet.
+**Current status**: Phase II complete — the JSON Config Analyzer is live with security auditing (7 rules), missing settings detection (7 checks), config optimization, JSON Schema validation, and config diffing. Phase III (Skill Analyzer) is next.
 
 ## Tech Stack
 
@@ -73,8 +73,16 @@ pnpm run typecheck      # mypy (backend) + tsc (frontend)
 │   ├── pyproject.toml      # Python dependencies and tool configs
 │   ├── app/
 │   │   ├── main.py         # FastAPI app entry point, CORS config
+│   │   ├── data/
+│   │   │   ├── rules.py    # Security rules, recommended settings, optimizations
+│   │   │   └── schema.py   # OpenCode JSON Schema for validation
+│   │   ├── schemas/
+│   │   │   └── config.py   # Pydantic models for audit/diff responses
+│   │   ├── services/
+│   │   │   └── config_analyzer.py  # JSON/JSONC parser, analysis, diff engine
 │   │   └── routers/
-│   │       └── health.py   # GET /api/health
+│   │       ├── health.py   # GET /api/health
+│   │       └── config.py   # POST /api/config/audit, POST /api/config/diff
 │   └── tests/
 ├── frontend/               # React + Vite application
 │   ├── package.json
@@ -83,8 +91,14 @@ pnpm run typecheck      # mypy (backend) + tsc (frontend)
 │   │   ├── main.tsx        # React entry
 │   │   ├── App.tsx         # Dashboard shell (header, sidebar, health check)
 │   │   ├── index.css       # Tailwind v4 entry + shadcn theme variables
-│   │   ├── lib/utils.ts    # cn() utility (clsx + tailwind-merge)
-│   │   └── components/ui/  # shadcn/ui components
+│   │   ├── lib/
+│   │   │   ├── utils.ts    # cn() utility (clsx + tailwind-merge)
+│   │   │   └── api.ts      # API client (auditConfig, diffConfig)
+│   │   ├── types/
+│   │   │   └── config.ts   # TypeScript interfaces for API contracts
+│   │   └── components/
+│   │       ├── ui/         # shadcn/ui components (button, card, tabs)
+│   │       └── config-analyzer/  # ConfigUpload, AuditResults, DiffView, ConfigAnalyzer
 │   └── components.json     # shadcn/ui config
 ├── docs/
 │   ├── project/            # Planning docs (PHASES, TASKS, DECISIONS, TODO)
@@ -123,7 +137,7 @@ All three must pass before committing.
 | Phase | Feature | Status |
 | ------- | --------- | -------- |
 | I | Scaffold backend and frontend, end-to-end communication | Done |
-| II | JSON Config Analyzer (parse, security audit, diff) | Planned |
+| II | JSON Config Analyzer (parse, security audit, diff) | Done |
 | III | Skill Analyzer & Maker | Planned |
 | IV | Tool, Command, and MCP Analyzers | Planned |
 | V | Unified Dashboard + Settings | Planned |
