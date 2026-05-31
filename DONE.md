@@ -10,3 +10,8 @@
 - [2026-05-31] Initial repo structure: docs/project/, knowledge/, .gitignore,
   Python venv scaffolding (files: docs/project/OpenCode-DevKit-Project.md,
   docs/project/additional-files.md, .gitignore, knowledge/*.md)
+- [2026-05-31] Ran graphify: built knowledge graph (79 nodes, 106 edges, 11
+  communities), generated graph.html + GRAPH_REPORT.md + graph.json; traced
+  Vite/Tailwind/shadcn connections; updated .gitignore for graphify artifacts
+  (files: graphify-out/graph.html, graphify-out/GRAPH_REPORT.md,
+  graphify-out/graph.json, .gitignore)
