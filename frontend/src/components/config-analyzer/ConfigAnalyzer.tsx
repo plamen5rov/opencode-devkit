@@ -4,8 +4,9 @@ import { auditConfig, diffConfig } from "@/lib/api"
 import { ConfigUpload } from "@/components/config-analyzer/ConfigUpload"
 import { AuditResults } from "@/components/config-analyzer/AuditResults"
 import { DiffView } from "@/components/config-analyzer/DiffView"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Download, RotateCcw } from "lucide-react"
+
+type View = "audit" | "diff" | "optimized"
 
 function downloadJSON(data: Record<string, unknown>, filename: string) {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })
@@ -22,11 +23,13 @@ export function ConfigAnalyzer() {
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<ConfigAuditResult | null>(null)
   const [diffResult, setDiffResult] = useState<ConfigDiffResult | null>(null)
+  const [view, setView] = useState<View>("audit")
 
   const handleAnalyze = async (content: string) => {
     setError(null)
     setResult(null)
     setDiffResult(null)
+    setView("audit")
 
     if (!content.trim()) {
       setError("Please paste or upload a config file first.")
@@ -63,7 +66,11 @@ export function ConfigAnalyzer() {
     setError(null)
     setResult(null)
     setDiffResult(null)
+    setView("audit")
   }
+
+  const showDiff = diffResult && diffResult.changes.length > 0
+  const showOptimized = Boolean(result?.optimized_config)
 
   return (
     <div className="space-y-4">
@@ -76,7 +83,7 @@ export function ConfigAnalyzer() {
             type="button"
             onClick={handleClear}
             title="Clear All Data"
-            className="inline-flex size-10 items-center justify-center rounded-md border bg-background text-muted-foreground hover:bg-muted hover:text-foreground"
+            className="inline-flex size-10 shrink-0 items-center justify-center rounded-md border bg-background text-muted-foreground hover:bg-muted hover:text-foreground"
           >
             <RotateCcw className="size-4" />
           </button>
@@ -90,19 +97,8 @@ export function ConfigAnalyzer() {
       )}
 
       {result && result.is_valid_jsonc && (
-        <Tabs defaultValue="audit">
-          <TabsList>
-            <TabsTrigger value="audit">Audit</TabsTrigger>
-            {diffResult && diffResult.changes.length > 0 && (
-              <TabsTrigger value="diff">
-                Diff ({diffResult.changes.length})
-              </TabsTrigger>
-            )}
-            {result.optimized_config && (
-              <TabsTrigger value="optimized">Optimized</TabsTrigger>
-            )}
-          </TabsList>
-          <TabsContent value="audit" className="mt-4">
+        <div className="space-y-3">
+          {view === "audit" && (
             <AuditResults
               schemaErrors={result.schema_errors}
               securityIssues={result.security_issues}
@@ -110,18 +106,18 @@ export function ConfigAnalyzer() {
               missingSettings={result.missing_settings}
               optimizations={result.optimizations}
             />
-          </TabsContent>
-          {diffResult && (
-            <TabsContent value="diff" className="mt-4">
-              <DiffView
-                changes={diffResult.changes}
-                originalLabel="Original"
-                modifiedLabel="Optimized"
-              />
-            </TabsContent>
           )}
-          {result.optimized_config && (
-            <TabsContent value="optimized" className="mt-4">
+
+          {view === "diff" && diffResult && (
+            <DiffView
+              changes={diffResult.changes}
+              originalLabel="Original"
+              modifiedLabel="Optimized"
+            />
+          )}
+
+          {view === "optimized" && result.optimized_config && (
+            <div>
               <div className="mb-3 flex justify-end">
                 <button
                   type="button"
@@ -137,9 +133,49 @@ export function ConfigAnalyzer() {
                   {JSON.stringify(result.optimized_config, null, 2)}
                 </pre>
               </div>
-            </TabsContent>
+            </div>
           )}
-        </Tabs>
+
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setView("audit")}
+              className={`rounded-md px-4 py-1.5 text-xs font-medium transition-colors ${
+                view === "audit"
+                  ? "bg-primary text-primary-foreground"
+                  : "border bg-background text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              Audit
+            </button>
+            {showDiff && (
+              <button
+                type="button"
+                onClick={() => setView("diff")}
+                className={`rounded-md px-4 py-1.5 text-xs font-medium transition-colors ${
+                  view === "diff"
+                    ? "bg-primary text-primary-foreground"
+                    : "border bg-background text-muted-foreground hover:bg-muted"
+                }`}
+              >
+                Diff ({diffResult!.changes.length})
+              </button>
+            )}
+            {showOptimized && (
+              <button
+                type="button"
+                onClick={() => setView("optimized")}
+                className={`rounded-md px-4 py-1.5 text-xs font-medium transition-colors ${
+                  view === "optimized"
+                    ? "bg-primary text-primary-foreground"
+                    : "border bg-background text-muted-foreground hover:bg-muted"
+                }`}
+              >
+                Optimized
+              </button>
+            )}
+          </div>
+        </div>
       )}
     </div>
   )
