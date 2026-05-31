@@ -91,29 +91,17 @@ export function ConfigAnalyzer() {
 
       {result && result.is_valid_jsonc && (
         <Tabs defaultValue="audit">
-          <div className="flex items-center justify-between">
-            <TabsList>
-              <TabsTrigger value="audit">Audit</TabsTrigger>
-              {diffResult && diffResult.changes.length > 0 && (
-                <TabsTrigger value="diff">
-                  Diff ({diffResult.changes.length})
-                </TabsTrigger>
-              )}
-              {result.optimized_config && (
-                <TabsTrigger value="optimized">Optimized Config</TabsTrigger>
-              )}
-            </TabsList>
-            {result.optimized_config && (
-              <button
-                type="button"
-                onClick={() => downloadJSON(result.optimized_config!, "opencode-optimized.json")}
-                className="inline-flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <Download className="size-3" />
-                Download
-              </button>
+          <TabsList>
+            <TabsTrigger value="audit">Audit</TabsTrigger>
+            {diffResult && diffResult.changes.length > 0 && (
+              <TabsTrigger value="diff">
+                Diff ({diffResult.changes.length})
+              </TabsTrigger>
             )}
-          </div>
+            {result.optimized_config && (
+              <TabsTrigger value="optimized">Optimized</TabsTrigger>
+            )}
+          </TabsList>
           <TabsContent value="audit" className="mt-4">
             <AuditResults
               schemaErrors={result.schema_errors}
@@ -134,6 +122,16 @@ export function ConfigAnalyzer() {
           )}
           {result.optimized_config && (
             <TabsContent value="optimized" className="mt-4">
+              <div className="mb-3 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => downloadJSON(result.optimized_config!, "opencode-optimized.json")}
+                  className="inline-flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  <Download className="size-3" />
+                  Download
+                </button>
+              </div>
               <div className="rounded-md border bg-muted/50 p-4">
                 <pre className="whitespace-pre-wrap text-xs">
                   {JSON.stringify(result.optimized_config, null, 2)}
