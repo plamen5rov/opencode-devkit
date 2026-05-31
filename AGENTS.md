@@ -129,3 +129,4 @@ secrets would be pushed. Add missing patterns to `.gitignore` before staging.
 | `/session-recap` | Summarize session: what changed, what remains |
 | `/pr-summary` | Summarize changes for a PR or handoff |
 | `/repo-scan` | Inspect repo structure and report findings |
+| `/update-relevant-files` | Audit all project docs for stale references after changes |

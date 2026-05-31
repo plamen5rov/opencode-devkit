@@ -82,3 +82,7 @@
   docs/project/ERRORS.md)
 - [2026-05-31] Synced AGENTS.md, README.md, additional-files.md with ERRORS.md
   (files: AGENTS.md, README.md, docs/project/additional-files.md)
+- [2026-05-31] Created `/update-relevant-files` slash command — project-local
+  and global copies; audits 8 tracking files for stale references after any
+  change batch (files: .opencode/commands/update-relevant-files.md,
+  ~/.config/opencode/command/update-relevant-files.md, AGENTS.md, DONE.md)
