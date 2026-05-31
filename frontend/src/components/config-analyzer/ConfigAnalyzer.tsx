@@ -1,10 +1,11 @@
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import type { ConfigAuditResult, ConfigDiffResult } from "@/types/config"
 import { auditConfig, diffConfig } from "@/lib/api"
 import { ConfigUpload } from "@/components/config-analyzer/ConfigUpload"
 import { AuditResults } from "@/components/config-analyzer/AuditResults"
 import { DiffView } from "@/components/config-analyzer/DiffView"
 import { Download, RotateCcw, Copy, Check } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 type View = "audit" | "diff" | "optimize"
 
@@ -18,7 +19,7 @@ function downloadJSON(data: Record<string, unknown>, filename: string) {
   URL.revokeObjectURL(url)
 }
 
-export function ConfigAnalyzer() {
+function ConfigAnalyzerBody() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<ConfigAuditResult | null>(null)
@@ -27,20 +28,20 @@ export function ConfigAnalyzer() {
   const [copied, setCopied] = useState(false)
   const [content, setContent] = useState("")
 
-  const handleAnalyze = async (content: string) => {
+  const handleAnalyze = useCallback(async (text: string) => {
     setError(null)
     setResult(null)
     setDiffResult(null)
     setView("audit")
 
-    if (!content.trim()) {
+    if (!text.trim()) {
       setError("Please paste or upload a config file first.")
       return
     }
 
     setLoading(true)
     try {
-      const res = await auditConfig(content)
+      const res = await auditConfig(text)
       setResult(res.result)
 
       if (!res.result.is_valid_jsonc) {
@@ -50,7 +51,7 @@ export function ConfigAnalyzer() {
 
       if (res.result.optimized_config && Object.keys(res.result.optimized_config).length > 0) {
         try {
-          const original = JSON.parse(content)
+          const original = JSON.parse(text)
           const diffRes = await diffConfig(original, res.result.optimized_config)
           setDiffResult(diffRes.result)
         } catch {
@@ -62,41 +63,23 @@ export function ConfigAnalyzer() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
-  const handleClear = () => {
-    setContent("")
-    setError(null)
-    setResult(null)
-    setDiffResult(null)
-    setView("audit")
-  }
-
-  const handleCopy = async (json: Record<string, unknown>) => {
+  const handleCopy = useCallback(async (json: Record<string, unknown>) => {
     await navigator.clipboard.writeText(JSON.stringify(json, null, 2))
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
-  }
+  }, [])
 
   const showDiff = diffResult && diffResult.changes.length > 0
   const showOptimize = Boolean(result?.optimized_config)
 
   return (
-    <div className="space-y-4">
+    <>
       <div className="flex items-center gap-2">
         <div className="flex-1">
           <ConfigUpload content={content} onContentChange={setContent} onAnalyze={handleAnalyze} loading={loading} />
         </div>
-        {result && (
-          <button
-            type="button"
-            onClick={handleClear}
-            title="Clear All Data"
-            className="inline-flex size-10 shrink-0 items-center justify-center rounded-md border bg-background text-muted-foreground hover:bg-muted hover:text-foreground"
-          >
-            <RotateCcw className="size-4" />
-          </button>
-        )}
       </div>
 
       {error && (
@@ -194,6 +177,26 @@ export function ConfigAnalyzer() {
           )}
         </div>
       )}
+    </>
+  )
+}
+
+export function ConfigAnalyzer() {
+  const [instanceKey, setInstanceKey] = useState(0)
+
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => setInstanceKey((k) => k + 1)}
+          title="Clear All Data"
+        >
+          <RotateCcw className="size-4" />
+        </Button>
+      </div>
+      <ConfigAnalyzerBody key={instanceKey} />
     </div>
   )
 }
