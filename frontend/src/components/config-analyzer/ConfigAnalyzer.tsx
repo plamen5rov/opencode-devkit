@@ -25,7 +25,7 @@ export function ConfigAnalyzer() {
   const [diffResult, setDiffResult] = useState<ConfigDiffResult | null>(null)
   const [view, setView] = useState<View>("audit")
   const [copied, setCopied] = useState(false)
-  const [resetKey, setResetKey] = useState(0)
+  const [content, setContent] = useState("")
 
   const handleAnalyze = async (content: string) => {
     setError(null)
@@ -65,11 +65,11 @@ export function ConfigAnalyzer() {
   }
 
   const handleClear = () => {
+    setContent("")
     setError(null)
     setResult(null)
     setDiffResult(null)
     setView("audit")
-    setResetKey((k) => k + 1)
   }
 
   const handleCopy = async (json: Record<string, unknown>) => {
@@ -85,7 +85,7 @@ export function ConfigAnalyzer() {
     <div className="space-y-4">
       <div className="flex items-center gap-2">
         <div className="flex-1">
-          <ConfigUpload key={resetKey} onAnalyze={handleAnalyze} loading={loading} />
+          <ConfigUpload content={content} onContentChange={setContent} onAnalyze={handleAnalyze} loading={loading} />
         </div>
         {result && (
           <button

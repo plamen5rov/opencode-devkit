@@ -4,12 +4,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface Props {
+  content: string
+  onContentChange: (content: string) => void
   onAnalyze: (content: string) => void
   loading: boolean
 }
 
-export function ConfigUpload({ onAnalyze, loading }: Props) {
-  const [content, setContent] = useState("")
+export function ConfigUpload({ content, onContentChange, onAnalyze, loading }: Props) {
   const [dragOver, setDragOver] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -18,12 +19,12 @@ export function ConfigUpload({ onAnalyze, loading }: Props) {
       const reader = new FileReader()
       reader.onload = () => {
         const text = reader.result as string
-        setContent(text)
+        onContentChange(text)
         onAnalyze(text)
       }
       reader.readAsText(file)
     },
-    [onAnalyze],
+    [onAnalyze, onContentChange],
   )
 
   const handleDrop = useCallback(
@@ -39,12 +40,12 @@ export function ConfigUpload({ onAnalyze, loading }: Props) {
   const handlePaste = useCallback(async () => {
     try {
       const text = await navigator.clipboard.readText()
-      setContent(text)
+      onContentChange(text)
       onAnalyze(text)
     } catch {
       // clipboard access denied
     }
-  }, [onAnalyze])
+  }, [onAnalyze, onContentChange])
 
   return (
     <Card
@@ -71,7 +72,7 @@ export function ConfigUpload({ onAnalyze, loading }: Props) {
             rows={12}
             placeholder='Paste your opencode.json content here, or use the buttons below...'
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={(e) => onContentChange(e.target.value)}
             spellCheck={false}
           />
           <div className="flex gap-2">
