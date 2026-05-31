@@ -5,13 +5,18 @@ import re
 from copy import deepcopy
 from typing import Any
 
+from jsonschema import ValidationError as JsonSchemaValidationError
+from jsonschema import validate
+
 from app.data.rules import OPTIMIZATIONS, RECOMMENDED_SETTINGS, SECURITY_RULES
+from app.data.schema import OPENCODE_CONFIG_SCHEMA
 from app.schemas.config import (
     ConfigAuditResult,
     ConfigDiffResult,
     DiffusionEntry,
     MissingSetting,
     Optimization,
+    SchemaValidationError,
     SecurityIssue,
 )
 
@@ -36,11 +41,27 @@ def parse_config(raw: str) -> tuple[dict[str, Any] | None, list[str]]:
     return None, errors
 
 
+def _format_schema_errors(errors: list[JsonSchemaValidationError]) -> list[SchemaValidationError]:
+    result: list[SchemaValidationError] = []
+    for err in errors:
+        path = err.json_path if err.json_path else "/"
+        result.append(SchemaValidationError(path=path, message=err.message))
+    return result
+
+
 def analyze_config(config: dict[str, Any]) -> ConfigAuditResult:
-    """Run all security checks, missing-setting checks, and optimizations."""
+    """Run schema validation, all security checks, missing-setting checks, and optimizations."""
+    schema_errors: list[SchemaValidationError] = []
     security_issues: list[SecurityIssue] = []
     missing_settings: list[MissingSetting] = []
     optimizations: list[Optimization] = []
+
+    try:
+        validate(instance=config, schema=OPENCODE_CONFIG_SCHEMA)
+    except JsonSchemaValidationError as e:
+        schema_errors = _format_schema_errors(
+            sorted(e.context, key=lambda x: x.json_path) if e.context else [e]
+        )
 
     for rule in SECURITY_RULES:
         try:
@@ -89,6 +110,7 @@ def analyze_config(config: dict[str, Any]) -> ConfigAuditResult:
     return ConfigAuditResult(
         is_valid_jsonc=True,
         validation_errors=[],
+        schema_errors=schema_errors,
         security_issues=security_issues,
         security_summary=security_summary,
         missing_settings=missing_settings,

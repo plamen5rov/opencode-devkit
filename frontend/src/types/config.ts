@@ -23,9 +23,15 @@ export interface Optimization {
   reason: string
 }
 
+export interface SchemaValidationError {
+  path: string
+  message: string
+}
+
 export interface ConfigAuditResult {
   is_valid_jsonc: boolean
   validation_errors: string[]
+  schema_errors: SchemaValidationError[]
   security_issues: SecurityIssue[]
   security_summary: Record<string, number>
   missing_settings: MissingSetting[]

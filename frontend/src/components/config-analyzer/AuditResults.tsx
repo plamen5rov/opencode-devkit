@@ -1,5 +1,5 @@
-import { ShieldAlert, Info, TriangleAlert, AlertTriangle } from "lucide-react"
-import type { SecurityIssue, MissingSetting, Optimization } from "@/types/config"
+import { ShieldAlert, Info, TriangleAlert, AlertTriangle, FileWarning } from "lucide-react"
+import type { SecurityIssue, MissingSetting, Optimization, SchemaValidationError } from "@/types/config"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 const severityConfig: Record<string, { icon: typeof ShieldAlert; color: string; bg: string }> = {
@@ -25,6 +25,7 @@ interface AuditResultsProps {
   securitySummary: Record<string, number>
   missingSettings: MissingSetting[]
   optimizations: Optimization[]
+  schemaErrors: SchemaValidationError[]
 }
 
 export function AuditResults({
@@ -32,8 +33,9 @@ export function AuditResults({
   securitySummary,
   missingSettings,
   optimizations,
+  schemaErrors,
 }: AuditResultsProps) {
-  if (securityIssues.length === 0 && missingSettings.length === 0 && optimizations.length === 0) {
+  if (securityIssues.length === 0 && missingSettings.length === 0 && optimizations.length === 0 && schemaErrors.length === 0) {
     return (
       <Card className="border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950">
         <CardContent className="pt-6 text-sm text-green-700 dark:text-green-300">
@@ -86,7 +88,25 @@ export function AuditResults({
                           Learn more
                         </a>
                       )}
-                    </div>
+      {schemaErrors.length > 0 && (
+        <Card className="border-red-200 dark:border-red-800">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-medium">
+              <FileWarning className="size-4 text-red-500" />
+              Schema Validation Errors ({schemaErrors.length})
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {schemaErrors.map((err, i) => (
+              <div key={i} className="rounded-md border border-red-200 bg-red-50 p-3 dark:border-red-800 dark:bg-red-950">
+                <code className="text-xs font-semibold text-red-600 dark:text-red-400">{err.path}</code>
+                <p className="mt-1 text-xs text-red-700 dark:text-red-300">{err.message}</p>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      )}
+    </div>
                   </div>
                 </div>
               )

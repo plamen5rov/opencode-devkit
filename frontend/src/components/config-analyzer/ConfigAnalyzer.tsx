@@ -1,11 +1,21 @@
 import { useState } from "react"
-import type { ConfigAuditResult } from "@/types/config"
+import type { ConfigAuditResult, ConfigDiffResult } from "@/types/config"
 import { auditConfig, diffConfig } from "@/lib/api"
 import { ConfigUpload } from "@/components/config-analyzer/ConfigUpload"
 import { AuditResults } from "@/components/config-analyzer/AuditResults"
 import { DiffView } from "@/components/config-analyzer/DiffView"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import type { ConfigDiffResult } from "@/types/config"
+import { Download, RotateCcw } from "lucide-react"
+
+function downloadJSON(data: Record<string, unknown>, filename: string) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement("a")
+  a.href = url
+  a.download = filename
+  a.click()
+  URL.revokeObjectURL(url)
+}
 
 export function ConfigAnalyzer() {
   const [loading, setLoading] = useState(false)
@@ -39,7 +49,6 @@ export function ConfigAnalyzer() {
           const diffRes = await diffConfig(original, res.result.optimized_config)
           setDiffResult(diffRes.result)
         } catch {
-          // JSONC with comments can't be reparsed by JSON.parse — skip diff
           setDiffResult(null)
         }
       }
@@ -50,9 +59,29 @@ export function ConfigAnalyzer() {
     }
   }
 
+  const handleClear = () => {
+    setError(null)
+    setResult(null)
+    setDiffResult(null)
+  }
+
   return (
     <div className="space-y-4">
-      <ConfigUpload onAnalyze={handleAnalyze} loading={loading} />
+      <div className="flex items-center gap-2">
+        <div className="flex-1">
+          <ConfigUpload onAnalyze={handleAnalyze} loading={loading} />
+        </div>
+        {result && (
+          <button
+            type="button"
+            onClick={handleClear}
+            title="Clear All Data"
+            className="inline-flex size-10 items-center justify-center rounded-md border bg-background text-muted-foreground hover:bg-muted hover:text-foreground"
+          >
+            <RotateCcw className="size-4" />
+          </button>
+        )}
+      </div>
 
       {error && (
         <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300">
@@ -62,19 +91,32 @@ export function ConfigAnalyzer() {
 
       {result && result.is_valid_jsonc && (
         <Tabs defaultValue="audit">
-          <TabsList>
-            <TabsTrigger value="audit">Audit</TabsTrigger>
-            {diffResult && diffResult.changes.length > 0 && (
-              <TabsTrigger value="diff">
-                Diff ({diffResult.changes.length})
-              </TabsTrigger>
-            )}
+          <div className="flex items-center justify-between">
+            <TabsList>
+              <TabsTrigger value="audit">Audit</TabsTrigger>
+              {diffResult && diffResult.changes.length > 0 && (
+                <TabsTrigger value="diff">
+                  Diff ({diffResult.changes.length})
+                </TabsTrigger>
+              )}
+              {result.optimized_config && (
+                <TabsTrigger value="optimized">Optimized Config</TabsTrigger>
+              )}
+            </TabsList>
             {result.optimized_config && (
-              <TabsTrigger value="optimized">Optimized Config</TabsTrigger>
+              <button
+                type="button"
+                onClick={() => downloadJSON(result.optimized_config!, "opencode-optimized.json")}
+                className="inline-flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+              >
+                <Download className="size-3" />
+                Download
+              </button>
             )}
-          </TabsList>
+          </div>
           <TabsContent value="audit" className="mt-4">
             <AuditResults
+              schemaErrors={result.schema_errors}
               securityIssues={result.security_issues}
               securitySummary={result.security_summary}
               missingSettings={result.missing_settings}

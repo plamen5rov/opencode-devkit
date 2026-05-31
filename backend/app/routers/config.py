@@ -25,6 +25,7 @@ async def audit_config(request: Request) -> ConfigAuditResponse:
             result=ConfigAuditResult(
                 is_valid_jsonc=False,
                 validation_errors=errors,
+                schema_errors=[],
             ),
         )
 

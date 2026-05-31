@@ -13,7 +13,7 @@ repos:
     hooks:
       - id: mypy
         args: [--strict]
-        additional_dependencies: [fastapi, pydantic]
+        additional_dependencies: [fastapi, pydantic, jsonschema, types-jsonschema]
         files: ^backend/
 
   - repo: https://github.com/pre-commit/mirrors-eslint

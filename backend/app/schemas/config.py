@@ -30,9 +30,17 @@ class Optimization(BaseModel):
     reason: str = Field(description="Why this change is beneficial")
 
 
+class SchemaValidationError(BaseModel):
+    path: str = Field(
+        description="JSON pointer path to the error location, e.g. '/permission/bash'"
+    )
+    message: str = Field(description="Human-readable error message")
+
+
 class ConfigAuditResult(BaseModel):
     is_valid_jsonc: bool = Field(description="Whether input is valid JSON/JSONC")
     validation_errors: list[str] = Field(default_factory=list)
+    schema_errors: list[SchemaValidationError] = Field(default_factory=list)
     security_issues: list[SecurityIssue] = Field(default_factory=list)
     security_summary: dict[str, int] = Field(default_factory=dict)
     missing_settings: list[MissingSetting] = Field(default_factory=list)

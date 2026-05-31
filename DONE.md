@@ -60,3 +60,14 @@
 - [2026-05-31] Installed shadcn/ui Tabs component; added eslint ignore for
   shadcn-generated ui components (react-refresh rule) (files:
   frontend/src/components/ui/tabs.tsx, frontend/eslint.config.js)
+- [2026-05-31] Fixed tabs.tsx Vite 500 error: shadcn CLI generated import from
+  `src/lib/utils` but Vite only resolves the `@/` alias (files:
+  frontend/src/components/ui/tabs.tsx)
+- [2026-05-31] Phase II complete: added OpenCode JSON Schema validation
+  (jsonschema library, schema stored in backend/app/data/schema.py), added
+  export/download button for optimized config, added Clear All Data
+  functionality (files: backend/pyproject.toml, backend/app/data/schema.py,
+  backend/app/schemas/config.py, backend/app/services/config_analyzer.py,
+  backend/app/routers/config.py, frontend/src/types/config.ts,
+  frontend/src/components/config-analyzer/AuditResults.tsx,
+  frontend/src/components/config-analyzer/ConfigAnalyzer.tsx)

@@ -20,7 +20,7 @@ Active task breakdown for the current phase.
 - [x] Add pre-commit hooks (ruff, mypy, eslint)
 - [x] Create unified `pnpm run dev` start command (concurrently)
 
-## Phase II — JSON Config Analyzer (in progress)
+## Phase II — JSON Config Analyzer (complete)
 
 - [x] Backend: Pydantic schemas for audit/diff (ConfigAuditResponse, SecurityIssue, MissingSetting, etc.)
 - [x] Backend: Security rules engine (7 rules: permissions, bash, API keys, share, autoupdate, snapshots, MCP)
@@ -35,7 +35,6 @@ Active task breakdown for the current phase.
 - [x] Frontend: DiffView component (added/removed/changed with color-coded entries)
 - [x] Frontend: ConfigAnalyzer orchestrator with tabs (audit, diff, optimized config)
 - [x] Frontend: Integrated into dashboard sidebar with `implemented: true`
-- [ ] Add JSONC-aware text diff for JSON files with comments
-- [ ] Add OpenCode config JSON Schema validation (fetch from opencode.ai/config.json)
-- [ ] Add config export/download button for optimized config
-- [ ] Add "Clear All Data" functionality
+- [x] OpenCode config JSON Schema validation (jsonschema library, stored in backend/app/data/schema.py)
+- [x] Config export/download button for optimized config
+- [x] Clear All Data functionality

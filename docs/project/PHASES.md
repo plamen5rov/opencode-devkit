@@ -24,7 +24,7 @@ installation, and documentation.
 
 ---
 
-## Phase II — JSON Config Analyzer (in progress)
+## Phase II — JSON Config Analyzer (complete)
 
 Upload or paste an `opencode.json`, get a security/coverage audit.
 
@@ -34,9 +34,9 @@ Upload or paste an `opencode.json`, get a security/coverage audit.
 - [x] Show diff between original and optimized config
 - [x] Config upload (paste, file upload, drag-and-drop)
 - [x] Audit results with severity badges, missing settings, optimization display
-- [ ] OpenCode JSON Schema validation
-- [ ] Export/download optimized config
-- [ ] "Clear All Data" button functionality
+- [x] OpenCode JSON Schema validation
+- [x] Export/download optimized config
+- [x] "Clear All Data" button functionality
 
 ---
 

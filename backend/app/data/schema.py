@@ -1,0 +1,227 @@
+from __future__ import annotations
+
+from typing import Any
+
+# Full OpenCode JSON Schema as fetched from https://opencode.ai/config.json
+# Used for structural validation of uploaded opencode.json files.
+OPENCODE_CONFIG_SCHEMA: dict[str, Any] = {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$ref": "#/$defs/Config",
+    "$defs": {
+        "LogLevel": {
+            "type": "string",
+            "enum": ["DEBUG", "INFO", "WARN", "ERROR"],
+            "description": "Log level",
+        },
+        "ServerConfig": {
+            "type": "object",
+            "properties": {
+                "port": {
+                    "exclusiveMinimum": 0,
+                    "type": "integer",
+                    "maximum": 9007199254740991,
+                    "description": "Port to listen on",
+                },
+                "hostname": {
+                    "type": "string",
+                    "description": "Hostname to listen on",
+                },
+                "mdns": {
+                    "type": "boolean",
+                    "description": "Enable mDNS service discovery",
+                },
+                "mdnsDomain": {
+                    "type": "string",
+                    "description": (
+                        "Custom domain name for mDNS service (default: opencode.local)"
+                    ),
+                },
+                "cors": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Additional domains to allow for CORS",
+                },
+            },
+            "additionalProperties": False,
+        },
+        "PermissionActionConfig": {
+            "type": "string",
+            "enum": ["ask", "allow", "deny"],
+        },
+        "PermissionObjectConfig": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/$defs/PermissionActionConfig",
+            },
+        },
+        "PermissionRuleConfig": {
+            "anyOf": [
+                {"$ref": "#/$defs/PermissionActionConfig"},
+                {"$ref": "#/$defs/PermissionObjectConfig"},
+            ],
+        },
+        "PermissionConfig": {
+            "anyOf": [
+                {"$ref": "#/$defs/PermissionActionConfig"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "read": {"$ref": "#/$defs/PermissionRuleConfig"},
+                        "edit": {"$ref": "#/$defs/PermissionRuleConfig"},
+                        "glob": {"$ref": "#/$defs/PermissionRuleConfig"},
+                        "grep": {"$ref": "#/$defs/PermissionRuleConfig"},
+                        "list": {"$ref": "#/$defs/PermissionRuleConfig"},
+                        "bash": {"$ref": "#/$defs/PermissionRuleConfig"},
+                        "task": {"$ref": "#/$defs/PermissionRuleConfig"},
+                        "todowrite": {"$ref": "#/$defs/PermissionActionConfig"},
+                        "question": {"$ref": "#/$defs/PermissionActionConfig"},
+                        "webfetch": {"$ref": "#/$defs/PermissionActionConfig"},
+                        "websearch": {"$ref": "#/$defs/PermissionActionConfig"},
+                        "repo_clone": {"$ref": "#/$defs/PermissionRuleConfig"},
+                        "repo_overview": {"$ref": "#/$defs/PermissionRuleConfig"},
+                        "doom_loop": {"$ref": "#/$defs/PermissionActionConfig"},
+                        "skill": {"$ref": "#/$defs/PermissionRuleConfig"},
+                    },
+                    "additionalProperties": {
+                        "$ref": "#/$defs/PermissionRuleConfig",
+                    },
+                },
+            ],
+        },
+        "AgentConfig": {
+            "type": "object",
+            "properties": {
+                "model": {"type": "string"},
+                "temperature": {"type": "number"},
+                "top_p": {"type": "number"},
+                "prompt": {"type": "string"},
+                "disable": {"type": "boolean"},
+                "description": {"type": "string"},
+                "mode": {"type": "string", "enum": ["subagent", "primary", "all"]},
+                "hidden": {"type": "boolean"},
+                "options": {"type": "object"},
+                "color": {
+                    "anyOf": [
+                        {"pattern": "^#[0-9a-fA-F]{6}$", "type": "string"},
+                        {
+                            "type": "string",
+                            "enum": [
+                                "primary",
+                                "secondary",
+                                "accent",
+                                "success",
+                                "warning",
+                                "error",
+                                "info",
+                            ],
+                        },
+                    ],
+                },
+                "steps": {
+                    "exclusiveMinimum": 0,
+                    "type": "integer",
+                    "maximum": 9007199254740991,
+                },
+                "maxSteps": {
+                    "exclusiveMinimum": 0,
+                    "type": "integer",
+                    "maximum": 9007199254740991,
+                },
+                "permission": {"$ref": "#/$defs/PermissionConfig"},
+            },
+        },
+        "Config": {
+            "type": "object",
+            "properties": {
+                "$schema": {"type": "string"},
+                "shell": {"type": "string"},
+                "logLevel": {"$ref": "#/$defs/LogLevel"},
+                "server": {"$ref": "#/$defs/ServerConfig"},
+                "command": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                            "template": {"type": "string"},
+                            "description": {"type": "string"},
+                            "agent": {"type": "string"},
+                            "model": {"type": "string"},
+                            "subtask": {"type": "boolean"},
+                        },
+                        "required": ["template"],
+                        "additionalProperties": False,
+                    },
+                },
+                "snapshot": {"type": "boolean"},
+                "plugin": {
+                    "type": "array",
+                    "items": {"anyOf": [{"type": "string"}, {"type": "array"}]},
+                },
+                "share": {
+                    "type": "string",
+                    "enum": ["manual", "auto", "disabled"],
+                },
+                "autoshare": {"type": "boolean"},
+                "autoupdate": {
+                    "anyOf": [
+                        {"type": "boolean"},
+                        {"type": "string", "enum": ["notify"]},
+                    ],
+                },
+                "disabled_providers": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+                "enabled_providers": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+                "model": {"type": "string"},
+                "small_model": {"type": "string"},
+                "default_agent": {"type": "string"},
+                "username": {"type": "string"},
+                "agent": {
+                    "type": "object",
+                    "properties": {
+                        "plan": {"$ref": "#/$defs/AgentConfig"},
+                        "build": {"$ref": "#/$defs/AgentConfig"},
+                        "general": {"$ref": "#/$defs/AgentConfig"},
+                        "explore": {"$ref": "#/$defs/AgentConfig"},
+                        "scout": {"$ref": "#/$defs/AgentConfig"},
+                        "title": {"$ref": "#/$defs/AgentConfig"},
+                        "summary": {"$ref": "#/$defs/AgentConfig"},
+                        "compaction": {"$ref": "#/$defs/AgentConfig"},
+                    },
+                    "additionalProperties": {"$ref": "#/$defs/AgentConfig"},
+                },
+                "provider": {
+                    "type": "object",
+                    "additionalProperties": {"type": "object"},
+                },
+                "mcp": {
+                    "type": "object",
+                    "additionalProperties": {"type": "object"},
+                },
+                "formatter": {"anyOf": [{"type": "boolean"}, {"type": "object"}]},
+                "lsp": {"anyOf": [{"type": "boolean"}, {"type": "object"}]},
+                "instructions": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+                "layout": {"type": "string", "enum": ["auto", "stretch"]},
+                "permission": {"$ref": "#/$defs/PermissionConfig"},
+                "tools": {
+                    "type": "object",
+                    "additionalProperties": {"type": "boolean"},
+                },
+                "enterprise": {
+                    "type": "object",
+                    "properties": {"url": {"type": "string"}},
+                    "additionalProperties": False,
+                },
+                "experimental": {"type": "object"},
+            },
+            "additionalProperties": True,
+        },
+    },
+}
