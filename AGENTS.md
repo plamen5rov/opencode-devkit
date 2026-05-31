@@ -15,7 +15,7 @@ for auditing, analyzing, and optimizing OpenCode config files.
 | ---- | ------- |
 | `docs/project/OpenCode-DevKit-Project.md` | Vision, features, stack, phases |
 | `docs/project/additional-files.md` | Why CHANGELOG/PHASES/DECISIONS belong |
-| `knowledge/` | Copies of official OpenCode docs — **read-only, do not edit** |
+| `docs/knowledge/` | Copies of official OpenCode docs — **read-only, do not edit** |
 | `opencode.json` | Project-specific OpenCode config |
 | `AGENTS.md` | This file |
 | `README.md` | Needs writing (currently placeholder) |

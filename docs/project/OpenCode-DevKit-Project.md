@@ -62,7 +62,7 @@ Frontend: React (Vite, TypeScript, Tailwind and shadcn/ui)
 
 The projects starts with Phase I : "Initial phase" that includes:
 
-- initial setup by user (creation of project's directory, the /knowledge/ subdirectort, Python virtual environment and github repo - all done by the user before OpenCode is started inside project's directory)
+- initial setup by user (creation of project's directory, the /docs/knowledge/ subdirectort, Python virtual environment and github repo - all done by the user before OpenCode is started inside project's directory)
 - intital setup by OpenCode: review current docs after the "/init" command and edit AGENTS.md if needed
 - install FastAPI, Vite + React and all other needed software packages
 - create /library/ and all other needed subdirectories

@@ -35,15 +35,15 @@
 
 ## Surprising Connections (you probably didn't know these)
 - `AGENTS.md (Project)` --semantically_similar_to--> `AGENTS.md Rules System (OpenCode)`  [INFERRED] [semantically similar]
-  AGENTS.md → knowledge/rules.md
+  AGENTS.md → docs/knowledge/rules.md
 - `DONE.md Change Log` --semantically_similar_to--> `CHANGELOG.md`  [INFERRED] [semantically similar]
   DONE.md → docs/project/additional-files.md
 - `opencode.json (Project)` --instance_of--> `OpenCode Config System`  [INFERRED]
-  AGENTS.md → knowledge/config-main.md
+  AGENTS.md → docs/knowledge/config-main.md
 - `Plan Agent (Primary)` --conceptually_related_to--> `Skill Analyzer & Maker`  [INFERRED]
   knowledge/agents-config.md → docs/project/OpenCode-DevKit-Project.md
 - `Phase II — JSON Config Implementation` --depends_on--> `OpenCode Config System`  [INFERRED]
-  docs/project/OpenCode-DevKit-Project.md → knowledge/config-main.md
+  docs/project/OpenCode-DevKit-Project.md → docs/knowledge/config-main.md
 
 ## Hyperedges (group relationships)
 - **OpenCode integrates with ACP-compatible editors** — acp, zed_editor, jetbrains_ides [EXTRACTED 1.00]
@@ -54,7 +54,7 @@
 
 ### Community 0 - "Project Structure & Phases"
 Cohesion: 0.19
-Nodes (16): Dashboard Homescreen, docs/library/ Directory, docs/project/ Directory, FastAPI, JSON Config Analyzer, knowledge/ Directory, OpenCode DevKit, opencode.json (Project) (+8 more)
+Nodes (16): Dashboard Homescreen, docs/library/ Directory, docs/project/ Directory, FastAPI, JSON Config Analyzer, docs/knowledge/ Directory, OpenCode DevKit, opencode.json (Project) (+8 more)
 
 ### Community 1 - "Agents & Runtime Config"
 Cohesion: 0.13
