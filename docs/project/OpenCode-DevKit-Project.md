@@ -31,7 +31,9 @@ Give your best advice should that - or any other - be a seaparete file or includ
 
 Every type of add-ons in the /docs/library/ directory should have it's own subdirectory: /docs/library/skills, /docs/library/commands, etc.
 
-All these files are kept in this directory, so they are not mixed up with the core setting files for skills, commands, etc. (maybe a different naming convention is also a good idea?) that reside in the .opencode directory.
+All these files are kept in this directory, so they are not mixed up with the
+core setting files for skills, commands, etc. that reside in the `.opencode/`
+directory.
 
 ## Tech stack
 

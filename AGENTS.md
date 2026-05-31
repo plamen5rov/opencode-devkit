@@ -22,6 +22,7 @@ for auditing, analyzing, and optimizing OpenCode config files.
 | `docs/knowledge/` | Copies of official OpenCode docs — read-only, don't edit |
 | `docs/library/` | Sample skills, commands, tools for reference |
 | `opencode.json` | Project-specific OpenCode config |
+| `.opencode/` | Project-specific agents, commands, skills |
 | `AGENTS.md` | This file |
 | `DONE.md` | Session-based changelog |
 | `README.md` | Needs writing (currently placeholder) |
