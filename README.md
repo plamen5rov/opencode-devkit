@@ -101,7 +101,7 @@ pnpm run typecheck      # mypy (backend) + tsc (frontend)
 │   │       └── config-analyzer/  # ConfigUpload, AuditResults, DiffView, ConfigAnalyzer
 │   └── components.json     # shadcn/ui config
 ├── docs/
-│   ├── project/            # Planning docs (PHASES, TASKS, DECISIONS, TODO)
+│   ├── project/            # Planning docs (PHASES, TASKS, DECISIONS, TODO, ERRORS)
 │   ├── knowledge/          # OpenCode official reference docs (read-only)
 │   └── library/            # Sample skills, commands, tools (reference)
 ├── .opencode/              # Project-specific OpenCode agents, skills, commands

@@ -18,6 +18,7 @@ for auditing, analyzing, and optimizing OpenCode config files.
 | `docs/project/TASKS.md` | Active task checklist for current phase |
 | `docs/project/TODO.md` | Pending items and deferred ideas |
 | `docs/project/DECISIONS.md` | Architecture decision log |
+| `docs/project/ERRORS.md` | Structured error log with root causes and lessons |
 | `docs/project/additional-files.md` | Why CHANGELOG/PHASES/DECISIONS belong |
 | `docs/knowledge/` | Copies of official OpenCode docs — read-only, don't edit |
 | `docs/library/` | Sample skills, commands, tools for reference |
@@ -52,9 +53,17 @@ or silently choose a direction.
 
 When you change anything, update all affected project docs:
 `AGENTS.md`, `README.md`, `docs/project/TASKS.md`, `docs/project/TODO.md`,
-`DONE.md`, `docs/project/PHASES.md`, etc.
+`DONE.md`, `docs/project/PHASES.md`, `docs/project/ERRORS.md`, etc.
 
 Documentation must never lag behind implementation or decisions.
+
+### Error logging
+
+When you make a mistake that causes a bug or requires rework, log it in
+`docs/project/ERRORS.md` with: date, symptom, root cause, fix applied,
+and lesson learned. Do this after the fix is committed — not before.
+
+This is mandatory. A bug that takes multiple attempts to fix MUST be logged.
 
 ### Commit often
 

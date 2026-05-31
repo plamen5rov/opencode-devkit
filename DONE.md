@@ -71,3 +71,14 @@
   backend/app/routers/config.py, frontend/src/types/config.ts,
   frontend/src/components/config-analyzer/AuditResults.tsx,
   frontend/src/components/config-analyzer/ConfigAnalyzer.tsx)
+- [2026-05-31] Fixed tabs.tsx Vite 500 error (shadcn CLI generated src/ import
+  instead of @/ alias); fixed JSONC parser eating `://` in URLs by replacing
+  regex with string-aware state machine; fixed textarea resize by removing
+  flex-1; replaced shadcn Tabs with simple buttons; relocated Clear All Data
+  to App header with key-based remount after 4 failed attempts; created
+  ERRORS.md with 5 structured entries (files: frontend/src/components/ui/tabs.tsx,
+  backend/app/services/config_analyzer.py, frontend/src/components/config-analyzer/ConfigUpload.tsx,
+  frontend/src/components/config-analyzer/ConfigAnalyzer.tsx, frontend/src/App.tsx,
+  docs/project/ERRORS.md)
+- [2026-05-31] Synced AGENTS.md, README.md, additional-files.md with ERRORS.md
+  (files: AGENTS.md, README.md, docs/project/additional-files.md)

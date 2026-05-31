@@ -95,3 +95,32 @@ Need schema definition
 ```
 
 Think of it as a short-term memory file.
+
+## ERRORS.md
+
+Very useful.
+
+AI coding agents make mistakes. Without an error log, the same mistakes get
+repeated across sessions because the model has no memory of what went wrong
+before.
+
+Each entry records:
+
+- Date
+- Symptom (what the user saw)
+- Root cause (why it happened)
+- Fix applied (what resolved it)
+- Lesson learned (how to prevent recurrence)
+
+Example:
+
+```markdown
+## 2026-05-31 — Regex comment stripper ate `//` in URLs
+
+- **Symptom**: Configs with `$schema` URLs produced parse errors
+- **Root cause**: `re.sub(r"//.*", "", text)` treated `://` as a comment
+- **Fix**: State-machine parser that tracks string context
+- **Lesson**: Never use flat regex for structured formats
+```
+
+This is mandatory for bugs that take multiple attempts to fix.
