@@ -4,7 +4,7 @@ Project roadmap by phase.
 
 ---
 
-## Phase I — Initialization (current)
+## Phase I — Initialization (complete)
 
 Scaffold the project: directory structure, virtual environment, package
 installation, and documentation.
@@ -24,14 +24,19 @@ installation, and documentation.
 
 ---
 
-## Phase II — JSON Config Analyzer
+## Phase II — JSON Config Analyzer (in progress)
 
 Upload or paste an `opencode.json`, get a security/coverage audit.
 
-- Parse and validate config against schema
-- Report missing recommended settings with explanations
-- Flag security risks with severity and remediation links
-- Show diff between original and optimized config
+- [x] Parse and validate config (JSON/JSONC with comment stripping)
+- [x] Report missing recommended settings with explanations
+- [x] Flag security risks with severity and remediation links
+- [x] Show diff between original and optimized config
+- [x] Config upload (paste, file upload, drag-and-drop)
+- [x] Audit results with severity badges, missing settings, optimization display
+- [ ] OpenCode JSON Schema validation
+- [ ] Export/download optimized config
+- [ ] "Clear All Data" button functionality
 
 ---
 

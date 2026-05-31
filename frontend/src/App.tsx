@@ -2,9 +2,10 @@ import { useEffect, useState } from "react"
 import { Activity, Code2, FileJson, Puzzle, Settings, Terminal, Wand2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ConfigAnalyzer } from "@/components/config-analyzer/ConfigAnalyzer"
 
 const features = [
-  { id: "json-config", label: "JSON Config", icon: FileJson, implemented: false },
+  { id: "json-config", label: "JSON Config", icon: FileJson, implemented: true },
   { id: "skill-analyzer", label: "Skill Analyzer", icon: Wand2, implemented: false },
   { id: "command-analyzer", label: "Command Analyzer", icon: Terminal, implemented: false },
   { id: "tool-analyzer", label: "Tool Analyzer", icon: Puzzle, implemented: false },
@@ -76,23 +77,27 @@ function App() {
         </aside>
 
         <main className="flex-1 overflow-auto p-6">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((f) => (
-              <Card key={f.id} className={f.implemented ? "" : "opacity-50"}>
-                <CardHeader className="pb-2">
-                  <div className="flex items-center gap-2">
-                    <f.icon className="size-4" />
-                    <CardTitle className="text-sm">{f.label}</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription>
-                    {f.implemented ? "Ready" : "Coming soon — Phase II+"}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          {activeFeature === "json-config" ? (
+            <ConfigAnalyzer />
+          ) : (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {features.map((f) => (
+                <Card key={f.id} className={f.implemented ? "" : "opacity-50"}>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center gap-2">
+                      <f.icon className="size-4" />
+                      <CardTitle className="text-sm">{f.label}</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription>
+                      {f.implemented ? "Ready" : "Coming soon — Phase II+"}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </main>
       </div>
     </div>

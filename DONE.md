@@ -37,3 +37,26 @@
 - [2026-05-31] Added pre-commit hooks (ruff, mypy, eslint) via .pre-commit-config.yaml;
   added markdownlint config (.markdownlint.json); updated .gitignore with node_modules
   and frontend/dist (files: .pre-commit-config.yaml, .markdownlint.json, .gitignore)
+
+## Phase II — JSON Config Analyzer
+
+- [2026-05-31] Phase II: built backend config analysis engine — security audit (7 rules:
+  permissions, bash, API keys, share, autoupdate, snapshots, MCP), missing settings
+  detection (7 checks: model, small_model, instructions, permissions, compaction,
+  watcher, server), 3 optimizations (autoupdate→notify, add permissions, add $schema),
+  and recursive config diff engine (files: backend/app/schemas/config.py,
+  backend/app/data/rules.py, backend/app/services/config_analyzer.py,
+  backend/app/routers/config.py)
+- [2026-05-31] Phase II: built frontend config analyzer — ConfigUpload (paste, file
+  upload, drag-and-drop), AuditResults (severity badges, security issues, missing
+  settings, optimizations with before/after), DiffView (added/removed/changed with
+  color-coded entries), ConfigAnalyzer orchestrator with tabs (audit, diff, optimized
+  config); integrated into App.tsx dashboard sidebar (files:
+  frontend/src/components/config-analyzer/ConfigUpload.tsx,
+  frontend/src/components/config-analyzer/AuditResults.tsx,
+  frontend/src/components/config-analyzer/DiffView.tsx,
+  frontend/src/components/config-analyzer/ConfigAnalyzer.tsx,
+  frontend/src/types/config.ts, frontend/src/lib/api.ts)
+- [2026-05-31] Installed shadcn/ui Tabs component; added eslint ignore for
+  shadcn-generated ui components (react-refresh rule) (files:
+  frontend/src/components/ui/tabs.tsx, frontend/eslint.config.js)

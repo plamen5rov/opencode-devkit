@@ -20,9 +20,22 @@ Active task breakdown for the current phase.
 - [x] Add pre-commit hooks (ruff, mypy, eslint)
 - [x] Create unified `pnpm run dev` start command (concurrently)
 
-## Phase II — JSON Config Analyzer (next)
+## Phase II — JSON Config Analyzer (in progress)
 
-- [ ] Parse and validate opencode.json against schema
-- [ ] Report missing recommended settings with explanations
-- [ ] Flag security risks with severity and remediation links
-- [ ] Show diff between original and optimized config
+- [x] Backend: Pydantic schemas for audit/diff (ConfigAuditResponse, SecurityIssue, MissingSetting, etc.)
+- [x] Backend: Security rules engine (7 rules: permissions, bash, API keys, share, autoupdate, snapshots, MCP)
+- [x] Backend: Missing settings detection (7 checks: model, small_model, instructions, permissions, compaction, watcher, server)
+- [x] Backend: Config optimization suggestions (autoupdate→notify, add permissions, add $schema)
+- [x] Backend: Recursive config diff engine
+- [x] Backend: `POST /api/config/audit` and `POST /api/config/diff` endpoints
+- [x] Frontend: TypeScript types matching API responses
+- [x] Frontend: API client (`lib/api.ts`)
+- [x] Frontend: ConfigUpload component (paste, file upload, drag-and-drop)
+- [x] Frontend: AuditResults component (severity badges, security issues, missing settings, optimizations)
+- [x] Frontend: DiffView component (added/removed/changed with color-coded entries)
+- [x] Frontend: ConfigAnalyzer orchestrator with tabs (audit, diff, optimized config)
+- [x] Frontend: Integrated into dashboard sidebar with `implemented: true`
+- [ ] Add JSONC-aware text diff for JSON files with comments
+- [ ] Add OpenCode config JSON Schema validation (fetch from opencode.ai/config.json)
+- [ ] Add config export/download button for optimized config
+- [ ] Add "Clear All Data" functionality
