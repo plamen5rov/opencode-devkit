@@ -61,13 +61,14 @@ export function ConfigUpload({ onAnalyze, loading }: Props) {
       </CardHeader>
       <CardContent>
         <div
-          className={`flex min-h-[120px] flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 transition-colors ${
+          className={`flex min-h-[200px] flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 transition-colors ${
             dragOver ? "border-primary bg-primary/5" : "border-muted-foreground/25"
           }`}
         >
           <textarea
-            className="w-full flex-1 resize-y rounded-md border bg-transparent p-3 font-mono text-xs"
-            rows={10}
+            className="w-full flex-1 resize-y rounded-md border bg-transparent p-3 font-mono text-xs leading-relaxed"
+            style={{ minHeight: "160px", maxHeight: "500px", resize: "vertical" }}
+            rows={12}
             placeholder='Paste your opencode.json content here, or use the buttons below...'
             value={content}
             onChange={(e) => setContent(e.target.value)}
