@@ -4,7 +4,7 @@ import { auditConfig, diffConfig } from "@/lib/api"
 import { ConfigUpload } from "@/components/config-analyzer/ConfigUpload"
 import { AuditResults } from "@/components/config-analyzer/AuditResults"
 import { DiffView } from "@/components/config-analyzer/DiffView"
-import { Download, RotateCcw, Copy, Check } from "lucide-react"
+import { Download, Copy, Check } from "lucide-react"
 
 type View = "audit" | "diff" | "optimize"
 
@@ -18,7 +18,7 @@ function downloadJSON(data: Record<string, unknown>, filename: string) {
   URL.revokeObjectURL(url)
 }
 
-function ConfigAnalyzerBody() {
+export function ConfigAnalyzer() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<ConfigAuditResult | null>(null)
@@ -74,7 +74,7 @@ function ConfigAnalyzerBody() {
   const showOptimize = Boolean(result?.optimized_config)
 
   return (
-    <>
+    <div className="space-y-4">
       <div className="flex items-center gap-2">
         <div className="flex-1">
           <ConfigUpload content={content} onContentChange={setContent} onAnalyze={handleAnalyze} loading={loading} />
@@ -176,34 +176,6 @@ function ConfigAnalyzerBody() {
           )}
         </div>
       )}
-    </>
-  )
-}
-
-export function ConfigAnalyzer() {
-  const [instanceKey, setInstanceKey] = useState(0)
-
-  return (
-    <div
-      className="space-y-4"
-      onClick={(e) => console.log("CLICK on outer div, target:", (e.target as HTMLElement).tagName, (e.target as HTMLElement).className?.slice(0, 40))}
-    >
-      <div className="flex justify-end">
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation()
-            console.log("CLEAR CLICKED")
-            setInstanceKey((k) => k + 1)
-          }}
-          title="Clear All Data"
-          style={{ position: "relative", zIndex: 9999 }}
-          className="inline-flex size-8 items-center justify-center rounded-md border bg-background text-muted-foreground hover:bg-muted hover:text-foreground"
-        >
-          <RotateCcw className="size-4" />
-        </button>
-      </div>
-      <ConfigAnalyzerBody key={instanceKey} />
     </div>
   )
 }

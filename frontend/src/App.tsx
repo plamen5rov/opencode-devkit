@@ -15,6 +15,7 @@ const features = [
 function App() {
   const [activeFeature, setActiveFeature] = useState(features[0].id)
   const [backendStatus, setBackendStatus] = useState<"loading" | "ok" | "error">("loading")
+  const [clearKey, setClearKey] = useState(0)
 
   useEffect(() => {
     fetch("/api/health")
@@ -52,7 +53,7 @@ function App() {
           />
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={() => setClearKey((k) => k + 1)}>
             Clear All Data
           </Button>
           <Button variant="ghost" size="icon">
@@ -78,7 +79,7 @@ function App() {
 
         <main className="flex-1 overflow-auto p-6">
           {activeFeature === "json-config" ? (
-            <ConfigAnalyzer />
+            <ConfigAnalyzer key={clearKey} />
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {features.map((f) => (
