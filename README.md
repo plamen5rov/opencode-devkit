@@ -15,8 +15,8 @@ OpenCode DevKit ingests `opencode.json` config files and provides structured aud
 | Backend | FastAPI (Python 3.10+) | Strong typing, async-first, auto-generated OpenAPI docs |
 | Frontend | React + Vite + TypeScript | HMR for fast iteration, TS for safety |
 | Styling | Tailwind CSS v4 + shadcn/ui | Utility-first CSS, accessible component primitives |
-| Python packaging | `pyproject.toml` | Modern standard; see [Decision: pyproject.toml](#decision-pyprojecttoml-over-requirementstxt) |
-| JS package manager | pnpm | Efficient disk usage, strict dependency resolution; see [Decision: pnpm](#decision-pnpm-over-npm-or-yarn) |
+| Python packaging | `pyproject.toml` (fastapi, pydantic, jsonschema, …) | Modern standard; see [Decision: pyproject.toml](#decision-pyprojecttoml-over-requirementstxt) |
+| JS package manager | pnpm (react, vite, tailwindcss, shadcn/ui, …) | Efficient disk usage, strict dependency resolution; see [Decision: pnpm](#decision-pnpm-over-npm-or-yarn) |
 | Project layout | Separate `backend/` and `frontend/` | Simplicity over monorepo tooling; see [Decision: project layout](#decision-separate-directories-over-monorepo-tools) |
 
 ## Quickstart
@@ -110,11 +110,42 @@ pnpm run typecheck      # mypy (backend) + tsc (frontend)
 └── AGENTS.md               # Agent instruction file
 ```
 
+## Dependencies
+
+### Backend (Python)
+
+| Package | Role |
+| ------- | ---- |
+| fastapi | Web framework |
+| uvicorn | ASGI server |
+| pydantic | Data validation / serialization |
+| jsonschema | JSON Schema validation against OpenCode spec |
+| ruff | Linting + formatting (dev) |
+| mypy | Static type checking (dev) |
+| httpx | HTTP client for testing (dev) |
+
+### Frontend (JS/TS)
+
+| Package | Role |
+| ------- | ---- |
+| react / react-dom | UI framework |
+| vite | Build tool + dev server |
+| tailwindcss / @tailwindcss/vite | Utility-first CSS |
+| @base-ui/react | Headless component primitives |
+| class-variance-authority | Component variant API |
+| clsx / tailwind-merge | Class name utilities |
+| lucide-react | Icon library |
+| shadcn | Component code generation |
+| tw-animate-css | Tailwind CSS animation plugin |
+| typescript | Type system (dev) |
+| eslint / typescript-eslint | Linting (dev) |
+| @vitejs/plugin-react | React Fast Refresh / HMR (dev) |
+
 ## Configuration
 
 ### Environment variables
 
-None required for Phase I. The backend runs on `localhost:8000` and the frontend proxies `/api` requests to it via Vite's dev server proxy.
+None required. The backend runs on `localhost:8000` and the frontend proxies `/api` requests to it via Vite's dev server proxy.
 
 ### CORS
 
