@@ -1,186 +1,69 @@
 # AGENTS.md
 
-## Mission
+## What this is
 
-Build and maintain the OpenCode DevKit project.
+A full-stack web app (FastAPI + React/Vite/TypeScript/Tailwind/shadcn/ui)
+for auditing, analyzing, and optimizing OpenCode config files.
 
-Always prioritize:
-
-1. Correctness
-2. Maintainability
-3. Simplicity
-4. Security
-5. Documentation
+**Current status: Phase I — Initialization. No production code exists yet.**
 
 ---
 
-## Mandatory Rules
+## Key files
 
-### Never Assume
-
-If requirements are unclear:
-
-STOP.
-
-Ask the user.
-
-Do not guess.
-
-Do not invent missing requirements.
+| File | Purpose |
+| ---- | ------- |
+| `docs/project/OpenCode-DevKit-Project.md` | Vision, features, stack, phases |
+| `docs/project/additional-files.md` | Why CHANGELOG/PHASES/DECISIONS belong |
+| `knowledge/` | Copies of official OpenCode docs — **read-only, do not edit** |
+| `opencode.json` | Project-specific OpenCode config |
+| `AGENTS.md` | This file |
+| `README.md` | Needs writing (currently placeholder) |
 
 ---
 
-### Keep Documentation Updated
+## Dev environment
 
-Whenever a change is made:
-
-Review and update all affected documents:
-
-* README.md
-* PROJECT.md
-* ARCHITECTURE.md
-* TASKS.md
-* TODO.md
-* PHASES.md
-* CHANGELOG.md
-
-Documentation must never fall behind implementation.
+- Python venv at `.devkit/` (Python 3.10, gitignored)
+- Activate: `source .devkit/bin/activate`
+- No build, test, lint, or typecheck commands exist yet — they will be
+  scaffolded during Phase I
 
 ---
 
-### Task Management
+## Conventions
 
-Before starting work:
+### Ask, don't guess
 
-1. Review AGENTS.md
-2. Review TASKS.md
-3. Review current phase in PHASES.md
-4. Review recent CHANGELOG.md entries
+When requirements are unclear: STOP and ask. Never invent missing requirements
+or silently choose a direction.
 
-After completing work:
+### Document sync
 
-1. Update TASKS.md
-2. Update TODO.md
-3. Update CHANGELOG.md
-4. Update any affected project documents
+When you change anything, update all affected project docs:
+`AGENTS.md`, `README.md`, `docs/project/TASKS.md`, `docs/project/TODO.md`,
+`CHANGELOG.md`, `docs/project/PHASES.md`, etc.
 
----
+Documentation must never lag behind implementation or decisions.
 
-### Architecture First
+### After each commit
 
-Before implementing a major feature:
+Log changes to `DONE.md` at the repo root. Categorize under
+Added / Changed / Fixed / Removed with the date.
 
-* document architecture
-* define inputs
-* define outputs
-* identify dependencies
+### Markdown quality
 
----
-
-### File Organization
-
-Project instructions belong in:
-
-/docs/project/
-
-Knowledge sources belong in:
-
-/docs/knowledge/
-
-Reference examples belong in:
-
-/docs/library/
+All `.md` files follow CommonMark/GFM best practices (blank lines around
+headings, lists, and fenced code blocks; no trailing spaces; single trailing
+newline). Use the `markdown-lint` skill when writing or editing `.md` files.
 
 ---
 
-### Recommended Structure
+## Recommended skills
 
-/
-├── AGENTS.md
-├── README.md
-├── CHANGELOG.md
-├── .gitignore
-│
-├── backend/
-├── frontend/
-│
-├── docs/
-│   ├── project/
-│   │   ├── PROJECT.md
-│   │   ├── ARCHITECTURE.md
-│   │   ├── TASKS.md
-│   │   ├── TODO.md
-│   │   ├── PHASES.md
-│   │   └── DECISIONS.md
-│   │
-│   ├── knowledge/
-│   │   └── official-opencode-docs/
-│   │
-│   └── library/
-│       ├── skills/
-│       ├── commands/
-│       ├── tools/
-│       ├── mcp/
-│       ├── agents/
-│       └── examples/
-│
-└── .opencode/
-
-### Code Quality
-
-Prefer:
-
-* small modules
-* clear naming
-* type safety
-* reusable components
-
-Avoid:
-
-* duplication
-* hardcoded values
-* unnecessary complexity
-
----
-
-### Security
-
-Always identify:
-
-* unsafe defaults
-* exposed secrets
-* excessive permissions
-* insecure configurations
-
-Provide recommendations when found.
-
----
-
-### User Communication
-
-When uncertain:
-
-Ask questions.
-
-When blocked:
-
-Ask questions.
-
-When requirements conflict:
-
-Ask questions.
-
-Never silently choose a direction.
-
----
-
-### Project Evolution
-
-When a feature is added, removed, or modified:
-
-* update feature lists
-* update documentation
-* update roadmap
-* update tasks
-
-Project state must remain synchronized across all project documents.
+| Skill | When to use |
+| ----- | ----------- |
+| `markdown-lint` | Writing or editing any `.md` file |
+| `opencode-config` | Working with any `opencode.json` file |
+| `readme-guide` | Writing or improving `README.md` |
+| `done-md-logger` / `github-commit` | After each commit |
