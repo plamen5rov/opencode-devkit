@@ -5,7 +5,6 @@ import { ConfigUpload } from "@/components/config-analyzer/ConfigUpload"
 import { AuditResults } from "@/components/config-analyzer/AuditResults"
 import { DiffView } from "@/components/config-analyzer/DiffView"
 import { Download, RotateCcw, Copy, Check } from "lucide-react"
-import { Button } from "@/components/ui/button"
 
 type View = "audit" | "diff" | "optimize"
 
@@ -187,14 +186,17 @@ export function ConfigAnalyzer() {
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => setInstanceKey((k) => k + 1)}
+        <button
+          type="button"
+          onClick={() => {
+            console.log("CLEAR CLICKED")
+            setInstanceKey((k) => k + 1)
+          }}
           title="Clear All Data"
+          className="inline-flex size-8 items-center justify-center rounded-md border bg-background text-muted-foreground hover:bg-muted hover:text-foreground"
         >
           <RotateCcw className="size-4" />
-        </Button>
+        </button>
       </div>
       <ConfigAnalyzerBody key={instanceKey} />
     </div>
