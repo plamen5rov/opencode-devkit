@@ -66,8 +66,8 @@ export function ConfigUpload({ onAnalyze, loading }: Props) {
           }`}
         >
           <textarea
-            className="w-full flex-1 resize-y rounded-md border bg-transparent p-3 font-mono text-xs leading-relaxed"
-            style={{ minHeight: "160px", maxHeight: "500px", resize: "vertical" }}
+            className="w-full rounded-md border bg-transparent p-3 font-mono text-xs leading-relaxed"
+            style={{ minHeight: "180px", maxHeight: "500px", resize: "vertical", overflow: "auto" }}
             rows={12}
             placeholder='Paste your opencode.json content here, or use the buttons below...'
             value={content}
