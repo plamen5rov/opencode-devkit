@@ -184,15 +184,20 @@ export function ConfigAnalyzer() {
   const [instanceKey, setInstanceKey] = useState(0)
 
   return (
-    <div className="space-y-4">
+    <div
+      className="space-y-4"
+      onClick={(e) => console.log("CLICK on outer div, target:", (e.target as HTMLElement).tagName, (e.target as HTMLElement).className?.slice(0, 40))}
+    >
       <div className="flex justify-end">
         <button
           type="button"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation()
             console.log("CLEAR CLICKED")
             setInstanceKey((k) => k + 1)
           }}
           title="Clear All Data"
+          style={{ position: "relative", zIndex: 9999 }}
           className="inline-flex size-8 items-center justify-center rounded-md border bg-background text-muted-foreground hover:bg-muted hover:text-foreground"
         >
           <RotateCcw className="size-4" />
