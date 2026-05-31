@@ -4,7 +4,7 @@ import { auditConfig, diffConfig } from "@/lib/api"
 import { ConfigUpload } from "@/components/config-analyzer/ConfigUpload"
 import { AuditResults } from "@/components/config-analyzer/AuditResults"
 import { DiffView } from "@/components/config-analyzer/DiffView"
-import { Download, RotateCcw } from "lucide-react"
+import { Download, RotateCcw, Copy, Check } from "lucide-react"
 
 type View = "audit" | "diff" | "optimized"
 
@@ -24,6 +24,7 @@ export function ConfigAnalyzer() {
   const [result, setResult] = useState<ConfigAuditResult | null>(null)
   const [diffResult, setDiffResult] = useState<ConfigDiffResult | null>(null)
   const [view, setView] = useState<View>("audit")
+  const [copied, setCopied] = useState(false)
 
   const handleAnalyze = async (content: string) => {
     setError(null)
@@ -67,6 +68,12 @@ export function ConfigAnalyzer() {
     setResult(null)
     setDiffResult(null)
     setView("audit")
+  }
+
+  const handleCopy = async (json: Record<string, unknown>) => {
+    await navigator.clipboard.writeText(JSON.stringify(json, null, 2))
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   const showDiff = diffResult && diffResult.changes.length > 0
@@ -118,7 +125,15 @@ export function ConfigAnalyzer() {
 
           {view === "optimized" && result.optimized_config && (
             <div>
-              <div className="mb-3 flex justify-end">
+              <div className="mb-3 flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleCopy(result.optimized_config!)}
+                  className="inline-flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  {copied ? <Check className="size-3 text-green-500" /> : <Copy className="size-3" />}
+                  {copied ? "Copied" : "Copy"}
+                </button>
                 <button
                   type="button"
                   onClick={() => downloadJSON(result.optimized_config!, "opencode-optimized.json")}
@@ -136,7 +151,7 @@ export function ConfigAnalyzer() {
             </div>
           )}
 
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setView("audit")}
@@ -172,6 +187,18 @@ export function ConfigAnalyzer() {
                 }`}
               >
                 Optimized
+              </button>
+            )}
+            <div className="flex-1" />
+            {result.optimized_config && (
+              <button
+                type="button"
+                onClick={() => downloadJSON(result.optimized_config!, "opencode-optimized.json")}
+                title="Download optimized config"
+                className="inline-flex items-center gap-1 rounded-md border bg-background px-2 py-1.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
+              >
+                <Download className="size-3" />
+                Download
               </button>
             )}
           </div>
