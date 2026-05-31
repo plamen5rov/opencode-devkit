@@ -58,6 +58,12 @@ nosetests.xml
 .env
 .env.*
 
+# Node dependencies
+node_modules/
+
+# Frontend build output
+frontend/dist/
+
 # OS files
 .DS_Store
 

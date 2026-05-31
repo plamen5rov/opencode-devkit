@@ -15,9 +15,12 @@ installation, and documentation.
 - [x] Reference docs seeded
 - [x] Project documentation (AGENTS.md, TASKS.md, TODO.md, DECISIONS.md)
 - [x] `docs/library/` created
-- [ ] FastAPI backend scaffold
-- [ ] React + Vite + TypeScript + Tailwind + shadcn/ui frontend scaffold
-- [ ] Verified end-to-end dev pipeline
+- [x] FastAPI backend scaffold (pyproject.toml, ruff, mypy)
+- [x] React + Vite + TypeScript + Tailwind + shadcn/ui frontend scaffold
+- [x] Verified end-to-end dev pipeline (CORS + Vite proxy + health check)
+- [x] README.md with architecture decision rationale
+- [x] Pre-commit hooks (ruff, mypy, eslint)
+- [x] Unified `pnpm run dev` start command
 
 ---
 
