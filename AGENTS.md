@@ -19,7 +19,7 @@ for auditing, analyzing, and optimizing OpenCode config files.
 | `docs/project/TODO.md` | Pending items and deferred ideas |
 | `docs/project/DECISIONS.md` | Architecture decision log |
 | `docs/project/additional-files.md` | Why CHANGELOG/PHASES/DECISIONS belong |
-| `docs/knowledge/` | Copies of official OpenCode docs — **read-only, do not edit** |
+| `docs/knowledge/` | Copies of official OpenCode docs — read-only, don't edit |
 | `docs/library/` | Sample skills, commands, tools for reference |
 | `opencode.json` | Project-specific OpenCode config |
 | `AGENTS.md` | This file |
@@ -62,6 +62,13 @@ After every major batch of changes, without being reminded:
 4. Push to remote (`git push`)
 
 Do this proactively — do not wait for the user to ask.
+
+### Permissions
+
+Do not ask for permission on routine actions (edit, read, glob, grep, git,
+python3, mkdir, markdownlint). Only ask for hazardous actions: removing files
+(`rm`, `rmdir`), installing packages (`pip install`, `npm install`), or running
+unfamiliar commands. The `opencode.json` already encodes these rules.
 
 ### Markdown quality
 

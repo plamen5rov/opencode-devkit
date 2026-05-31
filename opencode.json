@@ -5,8 +5,26 @@
     "docs/project/OpenCode-DevKit-Project.md"
   ],
   "permission": {
+    "edit": "allow",
+    "read": "allow",
+    "glob": "allow",
+    "grep": "allow",
+    "webfetch": "allow",
+    "websearch": "allow",
+    "question": "allow",
+    "todowrite": "allow",
+    "skill": "allow",
+    "lsp": "allow",
     "bash": {
-      "source .devkit/bin/activate && *": "allow"
+      "*": "ask",
+      "git *": "allow",
+      "python3 *": "allow",
+      "ls *": "allow",
+      "cat *": "allow",
+      "curl *": "allow",
+      "mkdir *": "allow",
+      "source .devkit/bin/activate && *": "allow",
+      "npx markdownlint-cli2 *": "allow"
     }
   },
   "watcher": {
