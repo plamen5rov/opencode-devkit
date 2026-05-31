@@ -5,7 +5,7 @@
 A full-stack web app (FastAPI + React/Vite/TypeScript/Tailwind/shadcn/ui)
 for auditing, analyzing, and optimizing OpenCode config files.
 
-**Current status: Phase I — Initialization. No production code exists yet.**
+**Current status: Phase I complete. Backend and frontend scaffolds in place.**
 
 ---
 
@@ -25,7 +25,7 @@ for auditing, analyzing, and optimizing OpenCode config files.
 | `.opencode/` | Project-specific agents, commands, skills |
 | `AGENTS.md` | This file |
 | `DONE.md` | Session-based changelog |
-| `README.md` | Needs writing (currently placeholder) |
+| `README.md` | Project README with quickstart and decision rationale |
 
 ---
 
@@ -33,8 +33,11 @@ for auditing, analyzing, and optimizing OpenCode config files.
 
 - Python venv at `.devkit/` (Python 3.10, gitignored)
 - Activate: `source .devkit/bin/activate`
-- No build, test, lint, or typecheck commands exist yet — they will be
-  scaffolded during Phase I
+- Backend dev server: `pnpm run dev:backend` (FastAPI on :8000)
+- Frontend dev server: `pnpm run dev:frontend` (Vite on :5173)
+- Both together: `pnpm run dev`
+- Lint: `pnpm run lint` (ruff + eslint)
+- Typecheck: `pnpm run typecheck` (mypy + tsc)
 
 ---
 
@@ -49,7 +52,7 @@ or silently choose a direction.
 
 When you change anything, update all affected project docs:
 `AGENTS.md`, `README.md`, `docs/project/TASKS.md`, `docs/project/TODO.md`,
-`CHANGELOG.md`, `docs/project/PHASES.md`, etc.
+`DONE.md`, `docs/project/PHASES.md`, etc.
 
 Documentation must never lag behind implementation or decisions.
 
@@ -76,6 +79,21 @@ unfamiliar commands. The `opencode.json` already encodes these rules.
 All `.md` files follow CommonMark/GFM best practices (blank lines around
 headings, lists, and fenced code blocks; no trailing spaces; single trailing
 newline). Use the `markdown-lint` skill when writing or editing `.md` files.
+
+### .gitignore hygiene
+
+After installing ANY new software package (pip install, pnpm add, etc.), check
+whether new artifacts need to be added to `.gitignore`. Typical culprits:
+
+- `node_modules/` — every new pnpm/node project
+- `dist/`, `build/` — build output directories
+- `__pycache__/`, `.pytest_cache/`, `.mypy_cache/` — Python bytecode and tool
+  caches
+- `.env`, `.env.*` — environment files that may contain secrets
+- Lockfiles in unexpected locations
+
+Run `git status` before every commit and verify no generated files, caches, or
+secrets would be pushed. Add missing patterns to `.gitignore` before staging.
 
 ---
 
