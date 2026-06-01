@@ -3,10 +3,11 @@ import { Activity, Code2, FileJson, Moon, Puzzle, Settings, Sun, Terminal, Wand2
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ConfigAnalyzer } from "@/components/config-analyzer/ConfigAnalyzer"
+import { SkillAnalyzer } from "@/components/skill-analyzer/SkillAnalyzer"
 
 const features = [
   { id: "json-config", label: "JSON Config", icon: FileJson, implemented: true },
-  { id: "skill-analyzer", label: "Skill Analyzer", icon: Wand2, implemented: false },
+  { id: "skill-analyzer", label: "Skill Analyzer", icon: Wand2, implemented: true },
   { id: "command-analyzer", label: "Command Analyzer", icon: Terminal, implemented: false },
   { id: "tool-analyzer", label: "Tool Analyzer", icon: Puzzle, implemented: false },
   { id: "mcp-analyzer", label: "MCP Analyzer", icon: Activity, implemented: false },
@@ -111,6 +112,8 @@ function App() {
         <main className="flex-1 overflow-auto p-6">
           {activeFeature === "json-config" ? (
             <ConfigAnalyzer key={clearKey} />
+          ) : activeFeature === "skill-analyzer" ? (
+            <SkillAnalyzer />
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {features.map((f) => (

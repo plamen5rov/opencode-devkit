@@ -38,3 +38,18 @@ Active task breakdown for the current phase.
 - [x] OpenCode config JSON Schema validation (jsonschema library, stored in backend/app/data/schema.py)
 - [x] Config export/download button for optimized config
 - [x] Clear All Data functionality
+
+## Phase III — Skill Analyzer & Maker (complete)
+
+- [x] Backend: Pydantic schemas (SkillFrontmatter, CompletenessReport, SkillTemplate, etc.)
+- [x] Backend: YAML frontmatter parser with name/description validation
+- [x] Backend: Content quality analyzer (word count, headings, trigger section, examples)
+- [x] Backend: File structure checks (SKILL.md filename, directory-name match)
+- [x] Backend: Completeness scoring engine (frontmatter 40, content 40, file 20)
+- [x] Backend: Built-in template matrix (5 templates: tool-setup, workflow, analyzer, code-gen, docs)
+- [x] Backend: `POST /api/skill/analyze` and `GET /api/skill/templates` endpoints
+- [x] Frontend: TypeScript types for skill API responses
+- [x] Frontend: `analyzeSkill()` and `getSkillTemplates()` API client functions
+- [x] Frontend: SkillAnalyzer component with paste/upload, score badges, report cards
+- [x] Frontend: Template browser with expandable frontmatter/sections and copy-to-clipboard
+- [x] Frontend: Integrated into dashboard sidebar with `implemented: true`

@@ -89,3 +89,14 @@
 - [2026-05-31] Added dark/light theme toggle: `useTheme` hook (dark default,
   localStorage persistence), sun/moon button in header, flash-prevention script
   in index.html (files: frontend/src/App.tsx, frontend/index.html, DONE.md)
+- [2026-05-31] Phase III complete: Skill Analyzer & Maker. YAML frontmatter
+  parser, content quality report, completeness scoring (0-100), 5 built-in
+  skill templates, `POST /api/skill/analyze` + `GET /api/skill/templates`
+  endpoints. SkillAnalyzer component with paste/upload, score-coded badges,
+  template browser with copy-to-clipboard. Added pyyaml + types-pyyaml to
+  backend deps. (files: backend/app/schemas/skill.py,
+  backend/app/services/skill_analyzer.py, backend/app/data/templates.py,
+  backend/app/routers/skill.py, backend/app/main.py, backend/pyproject.toml,
+  frontend/src/types/skill.ts, frontend/src/lib/api.ts,
+  frontend/src/components/skill-analyzer/SkillAnalyzer.tsx,
+  frontend/src/App.tsx, docs/project/PHASES.md, docs/project/TASKS.md, DONE.md)

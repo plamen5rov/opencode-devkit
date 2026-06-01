@@ -40,13 +40,16 @@ Upload or paste an `opencode.json`, get a security/coverage audit.
 
 ---
 
-## Phase III — Skill Analyzer & Maker
+## Phase III — Skill Analyzer & Maker (complete)
 
 Analyze existing skills and provide a builder for creating new ones.
 
-- Parse SKILL.md frontmatter and content
-- Report completeness (description, permissions, prompt quality)
-- Skill template matrix with options, descriptions, examples
+- [x] Parse SKILL.md frontmatter and validate name, description, required fields
+- [x] Content quality report (word count, heading structure, trigger section, examples)
+- [x] File structure checks (SKILL.md filename, directory name match)
+- [x] Completeness score with per-category breakdown
+- [x] Skill template matrix with 5 templates (tool-setup, workflow, analyzer, code-gen, docs)
+- [x] Copy template to clipboard for scaffolding new skills
 
 ---
 
