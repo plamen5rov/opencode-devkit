@@ -6,7 +6,7 @@
 
 OpenCode DevKit is a static web app that audits `opencode.json` configurations, validates SKILL.md files, analyzes slash commands and MCP server configs, and audits tool permissions — all running entirely in the browser with no backend server required.
 
-**Current status**: Phase VI complete — fully client-side. All five analyzers plus dashboard live as a static site, deployable to GitHub Pages.
+**Current status**: Phase VII complete — fully client-side, dashboard polished with search, activity feed, and export. Deployable to GitHub Pages.
 
 ## Tech Stack
 
@@ -120,6 +120,7 @@ pnpm run typecheck  # tsc
 | IV | Tool, Command, and MCP Analyzers | Done |
 | V | Dashboard with metrics, feature grid, roadmap timeline | Done |
 | VI | Client-side migration — remove FastAPI, all logic in browser | Done |
+| VII | Dashboard polish — search, activity feed, export report | Done |
 
 See `docs/project/PHASES.md` for full details.
 
