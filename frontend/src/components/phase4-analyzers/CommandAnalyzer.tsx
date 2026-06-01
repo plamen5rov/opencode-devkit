@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react"
 import type { CommandReport } from "@/types/phase4"
 import { analyzeCommand } from "@/lib/api"
+import { logActivity } from "@/lib/activity"
 import { Upload, FileText, AlertTriangle, CheckCircle, XCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -32,6 +33,7 @@ export function CommandAnalyzer() {
     try {
       const report = analyzeCommand(content, filename)
       setReport(report)
+      logActivity("command", `Analyzed command "/${report.name}": score ${report.score}/100`)
     } finally {
       setLoading(false)
     }

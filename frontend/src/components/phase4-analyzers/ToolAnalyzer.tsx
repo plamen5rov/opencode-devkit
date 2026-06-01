@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react"
 import type { ToolPermissionReport } from "@/types/phase4"
 import { analyzeTools } from "@/lib/api"
+import { logActivity } from "@/lib/activity"
 import { Upload, AlertTriangle, Shield } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -59,6 +60,7 @@ export function ToolAnalyzer() {
       setTools(result.tools)
       setMissingCritical(result.missingCritical)
       setOverallScore(result.overallScore)
+      logActivity("tool", `Analyzed ${result.tools.length} tool permission(s)`)
     } catch {
       setError("Analysis failed — check JSON formatting")
     } finally {

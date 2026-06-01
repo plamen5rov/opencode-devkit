@@ -5,7 +5,7 @@
 A client-side web app (React/Vite/TypeScript/Tailwind/shadcn/ui)
 for auditing, analyzing, and optimizing OpenCode config files.
 
-**Current status: Phase VI complete — client-side migration, all analyzers live with no backend.**
+**Current status: Phase VII complete — dashboard polished with search, activity feed, and export.**
 
 ---
 

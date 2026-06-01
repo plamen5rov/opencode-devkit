@@ -167,3 +167,19 @@
   .pre-commit-config.yaml; AGENTS.md; README.md;
   docs/project/PHASES.md; docs/project/TASKS.md;
   docs/project/DECISIONS.md; DONE.md)
+- [2026-06-01] Phase VII — Dashboard Polish:
+  Added sessionStorage-backed activity log module (lib/activity.ts) with
+  logActivity/getActivityLog/clearActivityLog. All 5 analyzers now log
+  entries after successful analysis. Dashboard enhanced with: search/filter
+  input that filters feature grid by label/description/phase in real-time;
+  activity feed sidebar showing the 10 most recent actions with type icons
+  and timestamps; Export button that downloads a markdown report of the
+  dashboard (metrics, features table, roadmap). Empty-state shown when
+  no activity is logged yet.
+  (files: frontend/src/lib/activity.ts;
+  frontend/src/components/dashboard/Dashboard.tsx;
+  frontend/src/components/config-analyzer/ConfigAnalyzer.tsx;
+  frontend/src/components/skill-analyzer/SkillAnalyzer.tsx;
+  frontend/src/components/phase4-analyzers/CommandAnalyzer.tsx,
+  MCPAnalyzer.tsx, ToolAnalyzer.tsx; AGENTS.md;
+  docs/project/PHASES.md; docs/project/TASKS.md; DONE.md)

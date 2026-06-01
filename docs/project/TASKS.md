@@ -106,3 +106,14 @@ Active task breakdown for the current phase.
 - [x] Simplified pre-commit hooks to eslint only
 - [x] Removed Vite API proxy from vite.config.ts
 - [x] All checks pass: tsc (zero errors), eslint (zero errors)
+
+## Phase VII — Dashboard Polish (complete)
+
+- [x] Created `lib/activity.ts` — sessionStorage-backed activity log (max 50 entries)
+- [x] Added `logActivity()` calls in all 5 analyzers (ConfigAnalyzer, SkillAnalyzer,
+  CommandAnalyzer, MCPAnalyzer, ToolAnalyzer) after successful analysis
+- [x] Dashboard: search/filter input filters feature grid by label, description, phase
+- [x] Dashboard: activity feed sidebar shows 10 most recent actions with type icons
+- [x] Dashboard: Export button generates markdown report (.md download)
+- [x] Empty-state message when activity feed is empty
+- [x] All checks pass: tsc (zero errors), eslint (zero errors)

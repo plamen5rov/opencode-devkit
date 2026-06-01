@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react"
 import type { ConfigAuditResult, ConfigDiffResult } from "@/types/config"
 import { auditConfig, diffConfig } from "@/lib/api"
+import { logActivity } from "@/lib/activity"
 import { ConfigUpload } from "@/components/config-analyzer/ConfigUpload"
 import { AuditResults } from "@/components/config-analyzer/AuditResults"
 import { DiffView } from "@/components/config-analyzer/DiffView"
@@ -42,6 +43,7 @@ export function ConfigAnalyzer() {
     try {
       const result = auditConfig(text)
       setResult(result)
+      logActivity("config", `Audited config: ${result.security_issues.length} issues, ${result.optimizations.length} optimizations`)
 
       if (!result.is_valid_jsonc) {
         setError("Invalid JSON/JSONC: " + result.validation_errors.join(", "))

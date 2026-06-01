@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react"
 import type { CompletenessReport, SkillTemplate } from "@/types/skill"
 import { analyzeSkill, getSkillTemplates } from "@/lib/api"
+import { logActivity } from "@/lib/activity"
 import { FileText, Upload, AlertTriangle, CheckCircle, XCircle, Info, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -62,6 +63,7 @@ export function SkillAnalyzer() {
     try {
       const report = analyzeSkill(text, fname)
       setReport(report)
+      logActivity("skill", `Analyzed skill: score ${report.overall_score}/100`)
     } finally {
       setLoading(false)
     }

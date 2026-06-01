@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react"
 import type { MCPServerReport } from "@/types/phase4"
 import { analyzeMCP } from "@/lib/api"
+import { logActivity } from "@/lib/activity"
 import { Upload, AlertTriangle, CheckCircle, XCircle, Server } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -94,6 +95,7 @@ export function MCPAnalyzer() {
       setServers(result.servers)
       setOverallScore(result.overallScore)
       setServerCount(result.serverCount)
+      logActivity("mcp", `Analyzed ${result.serverCount} MCP server(s)`)
     } catch {
       setError("Analysis failed — check JSON formatting")
     } finally {

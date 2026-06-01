@@ -94,3 +94,16 @@ Remove FastAPI backend, move all logic to browser, enable pure static deploy.
 - [x] Simplified root configs: package.json, opencode.json, .gitignore, pre-commit
 - [x] Removed Vite API proxy — no backend to proxy to
 - [x] All checks pass: tsc (zero), eslint (zero), markdownlint (zero)
+
+---
+
+## Phase VII — Dashboard Polish (complete)
+
+Search, activity feed, and export for the dashboard landing page.
+
+- [x] SessionStorage-backed activity log module shared across all analyzers
+- [x] All 5 analyzers log activity entries after successful analysis
+- [x] Dashboard search/filter input filters feature grid in real-time
+- [x] Activity feed sidebar showing 10 most recent actions with type icons
+- [x] Export dashboard as markdown report (.md download)
+- [x] Empty-state for activity feed (no analyses run yet)
