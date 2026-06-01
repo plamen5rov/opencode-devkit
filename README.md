@@ -75,14 +75,26 @@ pnpm run typecheck      # mypy (backend) + tsc (frontend)
 │   │   ├── main.py         # FastAPI app entry point, CORS config
 │   │   ├── data/
 │   │   │   ├── rules.py    # Security rules, recommended settings, optimizations
-│   │   │   └── schema.py   # OpenCode JSON Schema for validation
+│   │   │   ├── schema.py   # OpenCode JSON Schema for validation
+│   │   │   ├── templates.py  # Built-in skill templates (5 types)
+│   │   │   └── features.py   # Feature matrix and phase definitions
 │   │   ├── schemas/
-│   │   │   └── config.py   # Pydantic models for audit/diff responses
+│   │   │   ├── config.py     # Pydantic models for audit/diff
+│   │   │   ├── skill.py      # Pydantic models for skill analysis
+│   │   │   ├── phase4.py     # Pydantic models for command/MCP/tool
+│   │   │   └── dashboard.py  # Pydantic models for dashboard
 │   │   ├── services/
-│   │   │   └── config_analyzer.py  # JSON/JSONC parser, analysis, diff engine
+│   │   │   ├── config_analyzer.py  # JSON/JSONC parser, analysis, diff engine
+│   │   │   ├── skill_analyzer.py   # YAML frontmatter parser, content scoring
+│   │   │   ├── command_analyzer.py # Command .md frontmatter + content analysis
+│   │   │   ├── mcp_analyzer.py     # MCP server config audit + secret detection
+│   │   │   └── tool_analyzer.py    # Tool permission audit
 │   │   └── routers/
-│   │       ├── health.py   # GET /api/health
-│   │       └── config.py   # POST /api/config/audit, POST /api/config/diff
+│   │       ├── health.py     # GET /api/health
+│   │       ├── config.py     # POST /api/config/audit, /api/config/diff
+│   │       ├── skill.py      # POST /api/skill/analyze, GET /api/skill/templates
+│   │       ├── phase4.py     # /api/command/analyze, /api/mcp/analyze, /api/tool/analyze
+│   │       └── dashboard.py  # GET /api/dashboard
 │   └── tests/
 ├── frontend/               # React + Vite application
 │   ├── package.json
@@ -93,13 +105,18 @@ pnpm run typecheck      # mypy (backend) + tsc (frontend)
 │   │   ├── index.css       # Tailwind v4 entry + shadcn theme variables
 │   │   ├── lib/
 │   │   │   ├── utils.ts    # cn() utility (clsx + tailwind-merge)
-│   │   │   └── api.ts      # API client (auditConfig, diffConfig)
+│   │   │   └── api.ts      # API client (all analyzer + dashboard endpoints)
 │   │   ├── types/
-│   │   │   └── config.ts   # TypeScript interfaces for API contracts
+│   │   │   ├── config.ts   # TypeScript interfaces for config API
+│   │   │   ├── skill.ts    # TypeScript interfaces for skill API
+│   │   │   ├── phase4.ts   # TypeScript interfaces for command/MCP/tool API
+│   │   │   └── dashboard.ts  # TypeScript interfaces for dashboard API
 │   │   └── components/
 │   │       ├── ui/         # shadcn/ui components (button, card, tabs)
-│   │       └── config-analyzer/  # ConfigUpload, AuditResults, DiffView, ConfigAnalyzer
-│   └── components.json     # shadcn/ui config
+│   │       ├── config-analyzer/  # ConfigUpload, AuditResults, DiffView, ConfigAnalyzer
+│   │       ├── skill-analyzer/   # SkillAnalyzer with paste/upload + template browser
+│   │       ├── phase4-analyzers/ # CommandAnalyzer, MCPAnalyzer, ToolAnalyzer
+│   │       └── dashboard/  # Dashboard, FeatureCard, PhaseTimeline
 ├── docs/
 │   ├── project/            # Planning docs (PHASES, TASKS, DECISIONS, TODO, ERRORS)
 │   ├── knowledge/          # OpenCode official reference docs (read-only)
@@ -120,9 +137,13 @@ pnpm run typecheck      # mypy (backend) + tsc (frontend)
 | uvicorn | ASGI server |
 | pydantic | Data validation / serialization |
 | jsonschema | JSON Schema validation against OpenCode spec |
+| pyyaml | YAML frontmatter parsing for skill/command analysis |
+| python-multipart | Form data parsing for file upload endpoints |
 | ruff | Linting + formatting (dev) |
 | mypy | Static type checking (dev) |
 | httpx | HTTP client for testing (dev) |
+| types-jsonschema | Type stubs for jsonschema (dev) |
+| types-pyyaml | Type stubs for pyyaml (dev) |
 
 ### Frontend (JS/TS)
 
@@ -169,9 +190,9 @@ All three must pass before committing.
 | ------- | --------- | -------- |
 | I | Scaffold backend and frontend, end-to-end communication | Done |
 | II | JSON Config Analyzer (parse, security audit, diff) | Done |
-| III | Skill Analyzer & Maker | Planned |
-| IV | Tool, Command, and MCP Analyzers | Planned |
-| V | Unified Dashboard + Settings | Planned |
+| III | Skill Analyzer & Maker (frontmatter, content quality, templates) | Done |
+| IV | Tool, Command, and MCP Analyzers | Done |
+| V | Unified Dashboard with metrics, feature grid, roadmap timeline | Done |
 
 See `docs/project/PHASES.md` for full details.
 
