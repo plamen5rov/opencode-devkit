@@ -130,3 +130,16 @@
   frontend/src/components/phase4-analyzers/ToolAnalyzer.tsx,
   frontend/src/App.tsx, docs/project/PHASES.md,
   docs/project/TASKS.md, DONE.md)
+- [2026-06-01] Phase V — Dashboard landing page:
+  Added data-driven dashboard with GET /api/dashboard endpoint, stats
+  summary cards (total features, implemented, phases complete), feature
+  implementation grid with status badges, and phase roadmap timeline
+  with visual status indicators. Dashboard set as default sidebar entry.
+  (files: backend/app/schemas/dashboard.py, backend/app/data/features.py,
+  backend/app/routers/dashboard.py, backend/app/main.py,
+  frontend/src/types/dashboard.ts, frontend/src/lib/api.ts,
+  frontend/src/components/dashboard/Dashboard.tsx,
+  frontend/src/components/dashboard/FeatureCard.tsx,
+  frontend/src/components/dashboard/PhaseTimeline.tsx,
+  frontend/src/App.tsx, AGENTS.md, README.md,
+  docs/project/PHASES.md, docs/project/TASKS.md, DONE.md)

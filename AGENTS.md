@@ -5,7 +5,7 @@
 A full-stack web app (FastAPI + React/Vite/TypeScript/Tailwind/shadcn/ui)
 for auditing, analyzing, and optimizing OpenCode config files.
 
-**Current status: Phase IV complete. All five analyzers are live.**
+**Current status: Phase V in progress. Dashboard live — all 5 analyzers + landing page.**
 
 ---
 

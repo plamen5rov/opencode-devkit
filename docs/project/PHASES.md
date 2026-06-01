@@ -68,10 +68,17 @@ Same analyzer/maker pattern for tools, slash commands, and MCP servers.
 
 ---
 
-## Phase V — Dashboard
+## Phase V — Dashboard (in progress)
 
 Unified homescreen with metrics and feature access.
 
-- Header with app name, logo, settings
-- Sidebar navigation for all features
-- Central area showing implementation status per feature
+- [x] Header with app name, logo, settings (existing from earlier phases)
+- [x] Sidebar navigation for all features (existing, added Dashboard as first entry)
+- [x] Central area showing implementation status per feature
+- [x] Stats summary cards (total features, implemented, phases complete)
+- [x] Feature grid with status badges and descriptions
+- [x] Phase roadmap timeline with visual status indicators
+- [x] Data-driven from backend `GET /api/dashboard`
+- [ ] Search and filtering for features
+- [ ] Activity feed / recent audit log
+- [ ] Export dashboard as report

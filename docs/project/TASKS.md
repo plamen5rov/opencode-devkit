@@ -75,3 +75,16 @@ Active task breakdown for the current phase.
 - [x] Frontend: ToolAnalyzer component — permission rules table, security-sensitive
   badges, missing-critical alert, legend
 - [x] Frontend: All three integrated into dashboard sidebar with `implemented: true`
+
+## Phase V — Dashboard (in progress)
+
+- [x] Backend: Pydantic schemas for dashboard (FeatureInfo, PhaseInfo, DashboardResponse)
+- [x] Backend: Feature and phase data definitions (features.py with TypedDict)
+- [x] Backend: `GET /api/dashboard` endpoint returning feature matrix + roadmap
+- [x] Frontend: TypeScript types for dashboard API response
+- [x] Frontend: `getDashboard()` API client function
+- [x] Frontend: Dashboard component with stats cards, feature grid, phase timeline
+- [x] Frontend: FeatureCard sub-component with status badges and descriptions
+- [x] Frontend: PhaseTimeline sub-component with visual status indicators
+- [x] Frontend: Dashboard added as default sidebar entry (first, active on load)
+- [ ] Frontend: Dashboard enhancements (search, activity log, export)

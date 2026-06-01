@@ -8,6 +8,7 @@ import type {
   MCPAnalyzeResponse,
   ToolAnalyzeResponse,
 } from "@/types/phase4"
+import type { DashboardResponse } from "@/types/dashboard"
 
 export async function auditConfig(raw: string): Promise<ConfigAuditResponse> {
   const res = await fetch("/api/config/audit", {
@@ -91,4 +92,13 @@ export function analyzeMCP(configJson: string): Promise<MCPAnalyzeResponse> {
 
 export function analyzeTools(configJson: string): Promise<ToolAnalyzeResponse> {
   return postForm("/api/tool/analyze", { content: configJson })
+}
+
+export async function getDashboard(): Promise<DashboardResponse> {
+  const res = await fetch("/api/dashboard")
+  if (!res.ok) {
+    const text = await res.text()
+    throw new Error(`Dashboard fetch failed: ${res.status} ${text}`)
+  }
+  return res.json()
 }

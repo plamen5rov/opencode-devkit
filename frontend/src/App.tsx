@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Activity, Code2, FileJson, Moon, Puzzle, Settings, Sun, Terminal, Wand2 } from "lucide-react"
+import { Activity, Code2, FileJson, LayoutDashboard, Moon, Puzzle, Settings, Sun, Terminal, Wand2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ConfigAnalyzer } from "@/components/config-analyzer/ConfigAnalyzer"
@@ -7,8 +7,10 @@ import { SkillAnalyzer } from "@/components/skill-analyzer/SkillAnalyzer"
 import { CommandAnalyzer } from "@/components/phase4-analyzers/CommandAnalyzer"
 import { MCPAnalyzer } from "@/components/phase4-analyzers/MCPAnalyzer"
 import { ToolAnalyzer } from "@/components/phase4-analyzers/ToolAnalyzer"
+import { Dashboard } from "@/components/dashboard/Dashboard"
 
 const features = [
+  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, implemented: true },
   { id: "json-config", label: "JSON Config", icon: FileJson, implemented: true },
   { id: "skill-analyzer", label: "Skill Analyzer", icon: Wand2, implemented: true },
   { id: "command-analyzer", label: "Command Analyzer", icon: Terminal, implemented: true },
@@ -113,7 +115,9 @@ function App() {
         </aside>
 
         <main className="flex-1 overflow-auto p-6">
-          {activeFeature === "json-config" ? (
+          {activeFeature === "dashboard" ? (
+            <Dashboard />
+          ) : activeFeature === "json-config" ? (
             <ConfigAnalyzer key={clearKey} />
           ) : activeFeature === "skill-analyzer" ? (
             <SkillAnalyzer />
