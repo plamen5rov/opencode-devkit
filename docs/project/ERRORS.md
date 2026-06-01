@@ -47,3 +47,11 @@ Project error log. Each entry records a mistake, its root cause, the fix, and th
 - **Root cause**: `parse_config` passes `raw` (original text) to `_format_parse_error`, but the JSON parse exception comes from `json.loads(cleaned)` where invisible characters and comments have been removed. Positions in `cleaned` differ from positions in `raw`.
 - **Fix**: The error message now shows the actual problematic character near the error (via context snippet), which is more useful than a precise column pointer when text has been sanitized. A full fix would require mapping cleaned positions back to raw positions, but the context-based approach is adequate.
 - **Lesson**: When transforming input before parsing, error positions from the parser correspond to the transformed input, not the original. Either map positions back, or provide context snippets instead of position-dependent markers.
+
+## 2026-05-31 — Backend 502 after Phase III: two root causes
+
+- **Symptom**: After Phase III deploy, browser showed `502 (Bad Gateway)` on every API call (`/api/health`, `/api/skill/analyze`, `/api/skill/templates`). Vite proxy couldn't reach port 8000.
+- **Root causes** (two fixes needed):
+  1. The new `POST /api/skill/analyze` endpoint used `Form(...)` parameters, which require `python-multipart`. FastAPI raised a `RuntimeError` at import time, crashing the entire server before it could listen on port 8000. Added `python-multipart>=0.0.19` to deps.
+  2. `pnpm run dev` and all `package.json` scripts used bare `python3`, which is the **system** Python and has none of the venv packages (uvicorn, fastapi, etc.) installed. The backend command failed silently. Changed all scripts to use `.devkit/bin/python3`.
+- **Lesson**: When adding a new API endpoint, test the server startup before committing — not just lint and typecheck. FastAPI `Form()` params silently require an extra package. And always verify that dev scripts use the correct Python interpreter (venv, not system).

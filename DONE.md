@@ -100,3 +100,14 @@
   frontend/src/types/skill.ts, frontend/src/lib/api.ts,
   frontend/src/components/skill-analyzer/SkillAnalyzer.tsx,
   frontend/src/App.tsx, docs/project/PHASES.md, docs/project/TASKS.md, DONE.md)
+- [2026-05-31] Fix: Added `python-multipart` dependency — the new
+  `POST /api/skill/analyze` endpoint uses `Form(...)` params which
+  require it; FastAPI failed at import time without it (files:
+  backend/pyproject.toml)
+- [2026-05-31] Fix: Changed all `package.json` scripts from bare
+  `python3` to `.devkit/bin/python3` — dev/typecheck/lint commands
+  were using system Python which lacks venv packages, causing silent
+  backend startup failures (files: package.json)
+- [2026-05-31] Synced docs: AGENTS.md status → Phase III, ERRORS.md
+  new entry for backend 502 bug, DONE.md entries for fixes (files:
+  AGENTS.md, docs/project/ERRORS.md, DONE.md)
