@@ -4,16 +4,16 @@
   "private": true,
   "description": "Audit, analyze, and optimize OpenCode configuration files",
   "scripts": {
-    "dev": "concurrently -n be,fe -c blue,green \"python3 -m uvicorn app.main:app --app-dir backend --reload\" \"pnpm -C frontend run dev\"",
-    "dev:backend": "python3 -m uvicorn app.main:app --app-dir backend --reload",
+    "dev": "concurrently -n be,fe -c blue,green \".devkit/bin/python3 -m uvicorn app.main:app --app-dir backend --reload\" \"pnpm -C frontend run dev\"",
+    "dev:backend": ".devkit/bin/python3 -m uvicorn app.main:app --app-dir backend --reload",
     "dev:frontend": "pnpm -C frontend run dev",
     "build:frontend": "pnpm -C frontend run build",
     "lint": "pnpm -C frontend run lint",
-    "typecheck:backend": "python3 -m mypy backend/app/ --strict",
+    "typecheck:backend": ".devkit/bin/python3 -m mypy backend/app/ --strict",
     "typecheck:frontend": "pnpm -C frontend run typecheck",
-    "typecheck": "python3 -m mypy backend/app/ --strict && pnpm -C frontend run typecheck",
-    "lint:backend": "python3 -m ruff check backend/",
-    "format:backend": "python3 -m ruff format backend/"
+    "typecheck": ".devkit/bin/python3 -m mypy backend/app/ --strict && pnpm -C frontend run typecheck",
+    "lint:backend": ".devkit/bin/python3 -m ruff check backend/",
+    "format:backend": ".devkit/bin/python3 -m ruff format backend/"
   },
   "packageManager": "pnpm@11.5.0",
   "devDependencies": {
