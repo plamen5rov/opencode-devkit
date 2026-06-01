@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import config, health, skill
+from app.routers import config, health, phase4, skill
 
 app = FastAPI(
     title="OpenCode DevKit",
@@ -20,6 +20,7 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(config.router)
 app.include_router(skill.router)
+app.include_router(phase4.router)
 
 
 @app.get("/")

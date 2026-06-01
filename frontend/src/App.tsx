@@ -4,13 +4,16 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ConfigAnalyzer } from "@/components/config-analyzer/ConfigAnalyzer"
 import { SkillAnalyzer } from "@/components/skill-analyzer/SkillAnalyzer"
+import { CommandAnalyzer } from "@/components/phase4-analyzers/CommandAnalyzer"
+import { MCPAnalyzer } from "@/components/phase4-analyzers/MCPAnalyzer"
+import { ToolAnalyzer } from "@/components/phase4-analyzers/ToolAnalyzer"
 
 const features = [
   { id: "json-config", label: "JSON Config", icon: FileJson, implemented: true },
   { id: "skill-analyzer", label: "Skill Analyzer", icon: Wand2, implemented: true },
-  { id: "command-analyzer", label: "Command Analyzer", icon: Terminal, implemented: false },
-  { id: "tool-analyzer", label: "Tool Analyzer", icon: Puzzle, implemented: false },
-  { id: "mcp-analyzer", label: "MCP Analyzer", icon: Activity, implemented: false },
+  { id: "command-analyzer", label: "Command Analyzer", icon: Terminal, implemented: true },
+  { id: "tool-analyzer", label: "Tool Analyzer", icon: Puzzle, implemented: true },
+  { id: "mcp-analyzer", label: "MCP Analyzer", icon: Activity, implemented: true },
 ]
 
 function useTheme() {
@@ -114,6 +117,12 @@ function App() {
             <ConfigAnalyzer key={clearKey} />
           ) : activeFeature === "skill-analyzer" ? (
             <SkillAnalyzer />
+          ) : activeFeature === "command-analyzer" ? (
+            <CommandAnalyzer />
+          ) : activeFeature === "tool-analyzer" ? (
+            <ToolAnalyzer />
+          ) : activeFeature === "mcp-analyzer" ? (
+            <MCPAnalyzer />
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {features.map((f) => (

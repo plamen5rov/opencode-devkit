@@ -53,13 +53,18 @@ Analyze existing skills and provide a builder for creating new ones.
 
 ---
 
-## Phase IV — Tool, Command, MCP Analyzers
+## Phase IV — Tool, Command, MCP Analyzers (complete)
 
 Same analyzer/maker pattern for tools, slash commands, and MCP servers.
 
-- Tool definitions and permissions
-- Command markdown structure
-- MCP server configuration and authentication
+- [x] Command analyzer: YAML frontmatter validation, content quality scoring,
+  argument/shell/file-ref detection
+- [x] MCP server analyzer: type validation, required field checks,
+  hardcoded secret detection in env/headers/oauth
+- [x] Tool permissions: permission value validation, security-sensitive tool
+  flagging, missing critical permission detection
+- [x] Frontend: three analyzer components with paste/upload, score badges,
+  per-server/per-tool card layout
 
 ---
 

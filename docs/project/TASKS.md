@@ -53,3 +53,25 @@ Active task breakdown for the current phase.
 - [x] Frontend: SkillAnalyzer component with paste/upload, score badges, report cards
 - [x] Frontend: Template browser with expandable frontmatter/sections and copy-to-clipboard
 - [x] Frontend: Integrated into dashboard sidebar with `implemented: true`
+
+## Phase IV — Tool, Command, MCP Analyzers (complete)
+
+- [x] Backend: Combined schemas for all three analyzers (phase4.py)
+- [x] Backend: Command analyzer — YAML frontmatter parser, content quality scoring,
+  $ARGUMENTS/shell/file-ref detection
+- [x] Backend: MCP analyzer — local/remote type validation, required field checks,
+  hardcoded secret detection in env/headers/oauth
+- [x] Backend: Tool analyzer — permission value validation, security-sensitive tool
+  flagging, missing critical permission detection
+- [x] Backend: `POST /api/command/analyze`, `POST /api/mcp/analyze`,
+  `POST /api/tool/analyze` endpoints
+- [x] Frontend: TypeScript types for all three API responses
+- [x] Frontend: `analyzeCommand()`, `analyzeMCP()`, `analyzeTools()` API functions with
+  shared `postForm` helper
+- [x] Frontend: CommandAnalyzer component — paste/upload .md, frontmatter + content
+  report, score badge
+- [x] Frontend: MCPAnalyzer component — per-server cards with type/command/security
+  checks, overall score
+- [x] Frontend: ToolAnalyzer component — permission rules table, security-sensitive
+  badges, missing-critical alert, legend
+- [x] Frontend: All three integrated into dashboard sidebar with `implemented: true`

@@ -6,7 +6,7 @@
 
 OpenCode DevKit ingests `opencode.json` config files and provides structured audits: security risks, missing settings, skill completeness, and more. It is built as a full-stack web application with a FastAPI backend and a React/Vite frontend.
 
-**Current status**: Phase III complete — the Skill Analyzer & Maker is live: YAML frontmatter parsing, content quality scoring, completeness report, and 5 skill templates. Phase IV (Tool/Command/MCP Analyzers) is next.
+**Current status**: Phase IV complete — all five analyzers are live: JSON Config Analyzer, Skill Analyzer, Command Analyzer, Tool Analyzer, and MCP Analyzer. Phase V (Dashboard) is next.
 
 ## Tech Stack
 

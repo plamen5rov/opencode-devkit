@@ -3,6 +3,11 @@ import type {
   ConfigDiffResponse,
 } from "@/types/config"
 import type { SkillAnalyzeResponse, SkillTemplateResponse } from "@/types/skill"
+import type {
+  CommandAnalyzeResponse,
+  MCPAnalyzeResponse,
+  ToolAnalyzeResponse,
+} from "@/types/phase4"
 
 export async function auditConfig(raw: string): Promise<ConfigAuditResponse> {
   const res = await fetch("/api/config/audit", {
@@ -58,4 +63,32 @@ export async function getSkillTemplates(): Promise<SkillTemplateResponse> {
     throw new Error(`Failed to fetch templates: ${res.status} ${text}`)
   }
   return res.json()
+}
+
+async function postForm<T>(url: string, fields: Record<string, string>): Promise<T> {
+  const formData = new FormData()
+  for (const [k, v] of Object.entries(fields)) {
+    formData.append(k, v)
+  }
+  const res = await fetch(url, { method: "POST", body: formData })
+  if (!res.ok) {
+    const text = await res.text()
+    throw new Error(`Request failed: ${res.status} ${text}`)
+  }
+  return res.json()
+}
+
+export function analyzeCommand(
+  content: string,
+  filename: string = "command.md",
+): Promise<CommandAnalyzeResponse> {
+  return postForm("/api/command/analyze", { content, filename })
+}
+
+export function analyzeMCP(configJson: string): Promise<MCPAnalyzeResponse> {
+  return postForm("/api/mcp/analyze", { content: configJson })
+}
+
+export function analyzeTools(configJson: string): Promise<ToolAnalyzeResponse> {
+  return postForm("/api/tool/analyze", { content: configJson })
 }

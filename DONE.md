@@ -111,3 +111,22 @@
 - [2026-05-31] Synced docs: AGENTS.md status → Phase III, ERRORS.md
   new entry for backend 502 bug, DONE.md entries for fixes (files:
   AGENTS.md, docs/project/ERRORS.md, DONE.md)
+- [2026-06-01] Phase IV complete: Command, Tool, and MCP Analyzers.
+  Three new analyzers added:
+  - Command Analyzer: validates slash-command .md frontmatter (description,
+    agent, model, subtask), detects $ARGUMENTS/!`shell`/@file usage,
+    scores content quality (0-100).
+  - MCP Analyzer: validates local/remote MCP server config entries, checks
+    required fields (type, command/url, enabled), detects hardcoded secrets
+    in environment/headers/oauth.
+  - Tool Analyzer: audits tool permission entries, flags security-sensitive
+    tools (bash, edit, write), detects missing critical permissions.
+  (files: backend/app/schemas/phase4.py, backend/app/services/command_analyzer.py,
+  backend/app/services/mcp_analyzer.py, backend/app/services/tool_analyzer.py,
+  backend/app/routers/phase4.py, backend/app/main.py,
+  frontend/src/types/phase4.ts, frontend/src/lib/api.ts,
+  frontend/src/components/phase4-analyzers/CommandAnalyzer.tsx,
+  frontend/src/components/phase4-analyzers/MCPAnalyzer.tsx,
+  frontend/src/components/phase4-analyzers/ToolAnalyzer.tsx,
+  frontend/src/App.tsx, docs/project/PHASES.md,
+  docs/project/TASKS.md, DONE.md)
