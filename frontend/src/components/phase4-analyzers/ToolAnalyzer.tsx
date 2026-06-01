@@ -45,7 +45,7 @@ export function ToolAnalyzer() {
   const [overallScore, setOverallScore] = useState(0)
   const [content, setContent] = useState("")
 
-  const handleAnalyze = useCallback(async () => {
+  const handleAnalyze = useCallback(() => {
     setError(null)
     setTools(null)
     setMissingCritical([])
@@ -55,12 +55,12 @@ export function ToolAnalyzer() {
     }
     setLoading(true)
     try {
-      const res = await analyzeTools(content)
-      setTools(res.tools)
-      setMissingCritical(res.missing_critical)
-      setOverallScore(res.overall_score)
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Analysis failed")
+      const result = analyzeTools(content)
+      setTools(result.tools)
+      setMissingCritical(result.missingCritical)
+      setOverallScore(result.overallScore)
+    } catch {
+      setError("Analysis failed — check JSON formatting")
     } finally {
       setLoading(false)
     }

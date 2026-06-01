@@ -42,19 +42,8 @@ function useTheme() {
 
 function App() {
   const [activeFeature, setActiveFeature] = useState(features[0].id)
-  const [backendStatus, setBackendStatus] = useState<"loading" | "ok" | "error">("loading")
   const [clearKey, setClearKey] = useState(0)
   const [theme, toggleTheme] = useTheme()
-
-  useEffect(() => {
-    fetch("/api/health")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === "ok") setBackendStatus("ok")
-        else setBackendStatus("error")
-      })
-      .catch(() => setBackendStatus("error"))
-  }, [])
 
   return (
     <div className="flex h-screen flex-col bg-background">
@@ -64,22 +53,6 @@ function App() {
             <Code2 className="size-5" />
             <span>OpenCode DevKit</span>
           </div>
-          <span
-            className={`size-2 rounded-full ${
-              backendStatus === "loading"
-                ? "bg-yellow-400"
-                : backendStatus === "ok"
-                  ? "bg-green-500"
-                  : "bg-red-500"
-            }`}
-            title={
-              backendStatus === "loading"
-                ? "Connecting..."
-                : backendStatus === "ok"
-                  ? "API connected"
-                  : "API disconnected"
-            }
-          />
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={() => setClearKey((k) => k + 1)}>

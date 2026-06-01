@@ -143,3 +143,27 @@
   frontend/src/components/dashboard/PhaseTimeline.tsx,
   frontend/src/App.tsx, AGENTS.md, README.md,
   docs/project/PHASES.md, docs/project/TASKS.md, DONE.md)
+- [2026-06-01] Phase VI — Client-Side Migration:
+  Dumped FastAPI backend entirely. Ported all 5 analyzer services + 4 data
+  files from Python to TypeScript using js-yaml, ajv, and ajv-formats.
+  Rewrote all 7 React components to call service functions synchronously
+  (no fetch/await). Removed backend/ directory, Python venv, Vite proxy,
+  backend scripts from package.json, Python-specific permissions from
+  opencode.json, and Python hooks from pre-commit. Single pnpm run dev
+  starts just the Vite frontend on :5173. App is now a pure static site
+  deployable to GitHub Pages. All checks pass: tsc (zero), eslint (zero),
+  markdownlint (zero).
+  (files: frontend/src/lib/data/features.ts, templates.ts, schema.ts,
+  rules.ts; frontend/src/lib/services/config-analyzer.ts,
+  skill-analyzer.ts, command-analyzer.ts, mcp-analyzer.ts,
+  tool-analyzer.ts; frontend/src/lib/api.ts; frontend/src/App.tsx;
+  frontend/src/components/config-analyzer/ConfigAnalyzer.tsx;
+  frontend/src/components/skill-analyzer/SkillAnalyzer.tsx;
+  frontend/src/components/phase4-analyzers/CommandAnalyzer.tsx,
+  MCPAnalyzer.tsx, ToolAnalyzer.tsx;
+  frontend/src/components/dashboard/Dashboard.tsx;
+  frontend/src/types/skill.ts; frontend/vite.config.ts;
+  package.json; opencode.json; .gitignore;
+  .pre-commit-config.yaml; AGENTS.md; README.md;
+  docs/project/PHASES.md; docs/project/TASKS.md;
+  docs/project/DECISIONS.md; DONE.md)

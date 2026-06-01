@@ -81,7 +81,7 @@ export function MCPAnalyzer() {
   const [content, setContent] = useState("")
   const [serverCount, setServerCount] = useState(0)
 
-  const handleAnalyze = useCallback(async () => {
+  const handleAnalyze = useCallback(() => {
     setError(null)
     setServers(null)
     if (!content.trim()) {
@@ -90,12 +90,12 @@ export function MCPAnalyzer() {
     }
     setLoading(true)
     try {
-      const res = await analyzeMCP(content)
-      setServers(res.servers)
-      setOverallScore(res.overall_score)
-      setServerCount(res.server_count)
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Analysis failed")
+      const result = analyzeMCP(content)
+      setServers(result.servers)
+      setOverallScore(result.overallScore)
+      setServerCount(result.serverCount)
+    } catch {
+      setError("Analysis failed — check JSON formatting")
     } finally {
       setLoading(false)
     }

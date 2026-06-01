@@ -1,13 +1,6 @@
-import { useEffect, useState } from "react"
-import {
-  Activity,
-  CheckCircle2,
-  ClipboardList,
-  LayoutDashboard,
-  Loader2,
-} from "lucide-react"
+import { useMemo } from "react"
+import { Activity, CheckCircle2, ClipboardList, LayoutDashboard } from "lucide-react"
 import { getDashboard } from "@/lib/api"
-import type { DashboardResponse } from "@/types/dashboard"
 import { FeatureCard } from "@/components/dashboard/FeatureCard"
 import { PhaseTimeline } from "@/components/dashboard/PhaseTimeline"
 
@@ -26,37 +19,7 @@ function StatsCard({ label, value, icon: Icon }: { label: string; value: string 
 }
 
 export function Dashboard() {
-  const [data, setData] = useState<DashboardResponse | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    getDashboard()
-      .then((d) => {
-        setData(d)
-        setLoading(false)
-      })
-      .catch((e) => {
-        setError(e instanceof Error ? e.message : "Failed to load dashboard")
-        setLoading(false)
-      })
-  }, [])
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <Loader2 className="size-6 animate-spin text-muted-foreground" />
-      </div>
-    )
-  }
-
-  if (error || !data) {
-    return (
-      <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300">
-        {error ?? "Unable to load dashboard data"}
-      </div>
-    )
-  }
+  const data = useMemo(() => getDashboard(), [])
 
   return (
     <div className="space-y-8">

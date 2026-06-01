@@ -48,7 +48,7 @@ export function SkillAnalyzer() {
   const [content, setContent] = useState("")
   const [filename, setFilename] = useState("SKILL.md")
 
-  const handleAnalyze = useCallback(async (text: string, fname: string) => {
+  const handleAnalyze = useCallback((text: string, fname: string) => {
     setError(null)
     setReport(null)
     setView("report")
@@ -60,10 +60,8 @@ export function SkillAnalyzer() {
 
     setLoading(true)
     try {
-      const res = await analyzeSkill(text, fname)
-      setReport(res.report)
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Analysis failed")
+      const report = analyzeSkill(text, fname)
+      setReport(report)
     } finally {
       setLoading(false)
     }
@@ -73,16 +71,14 @@ export function SkillAnalyzer() {
     handleAnalyze(content, filename)
   }, [content, filename, handleAnalyze])
 
-  const handleLoadTemplates = useCallback(async () => {
+  const handleLoadTemplates = useCallback(() => {
     setView("templates")
     if (templates) return
     setError(null)
     setLoading(true)
     try {
-      const res = await getSkillTemplates()
-      setTemplates(res.templates)
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to load templates")
+      const temps = getSkillTemplates()
+      setTemplates(temps)
     } finally {
       setLoading(false)
     }
@@ -222,12 +218,12 @@ export function SkillAnalyzer() {
                         )}
                       </div>
                     )}
-                    <IssueList title="Name issues" issues={report.frontmatter.name_validation.issues} icon={AlertTriangle} />
-                    <IssueList title="Missing required" issues={report.frontmatter.missing_required} icon={XCircle} />
+                    <IssueList title="Name issues" issues={report.frontmatter.name_validation?.issues ?? []} icon={AlertTriangle} />
+                    <IssueList title="Missing required" issues={report.frontmatter.missing_required ?? []} icon={XCircle} />
                     <IssueList
                       title="Unknown fields"
-                      issues={report.frontmatter.unknown_fields.length > 0
-                        ? [`Unrecognized frontmatter fields: ${report.frontmatter.unknown_fields.join(", ")} (they are ignored by OpenCode)`]
+                      issues={(report.frontmatter.unknown_fields?.length ?? 0) > 0
+                        ? [`Unrecognized frontmatter fields: ${report.frontmatter.unknown_fields!.join(", ")} (they are ignored by OpenCode)`]
                         : []}
                       icon={Info}
                     />

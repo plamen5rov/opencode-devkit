@@ -18,20 +18,12 @@
     "bash": {
       "*": "ask",
       "git *": "allow",
-      "python3 *": "allow",
       "ls *": "allow",
       "cat *": "allow",
-      "curl *": "allow",
       "mkdir *": "allow",
-      "ruff *": "allow",
-      "mypy *": "allow",
       "npm *": "allow",
       "npx *": "allow",
-      "pnpm *": "allow",
-      "source .devkit/bin/activate && *": "allow"
+      "pnpm *": "allow"
     }
-  },
-  "watcher": {
-    "ignore": [".devkit/**", "__pycache__/**"]
   }
 }

@@ -9,7 +9,7 @@ Project roadmap by phase.
 Scaffold the project: directory structure, virtual environment, package
 installation, and documentation.
 
-**Goal**: `npm run dev` starts a working FastAPI backend + React frontend.
+**Goal**: `pnpm run dev` starts a working FastAPI backend + React frontend.
 
 - [x] Directory structure and venv
 - [x] Reference docs seeded
@@ -68,7 +68,7 @@ Same analyzer/maker pattern for tools, slash commands, and MCP servers.
 
 ---
 
-## Phase V — Dashboard (in progress)
+## Phase V — Dashboard (complete)
 
 Unified homescreen with metrics and feature access.
 
@@ -78,7 +78,19 @@ Unified homescreen with metrics and feature access.
 - [x] Stats summary cards (total features, implemented, phases complete)
 - [x] Feature grid with status badges and descriptions
 - [x] Phase roadmap timeline with visual status indicators
-- [x] Data-driven from backend `GET /api/dashboard`
-- [ ] Search and filtering for features
-- [ ] Activity feed / recent audit log
-- [ ] Export dashboard as report
+- [x] Data-driven from backend (then moved to static in Phase VI)
+
+---
+
+## Phase VI — Client-Side Migration (complete)
+
+Remove FastAPI backend, move all logic to browser, enable pure static deploy.
+
+- [x] Installed js-yaml, ajv, ajv-formats for client-side equivalents
+- [x] Ported 4 static data files (features, templates, schema, rules) to TypeScript
+- [x] Ported 5 analyzer services (config, skill, command, MCP, tool) to TypeScript
+- [x] Rewrote all components to use synchronous, direct imports (no fetch)
+- [x] Removed backend/ directory, Python venv, and all Python tooling
+- [x] Simplified root configs: package.json, opencode.json, .gitignore, pre-commit
+- [x] Removed Vite API proxy — no backend to proxy to
+- [x] All checks pass: tsc (zero), eslint (zero), markdownlint (zero)

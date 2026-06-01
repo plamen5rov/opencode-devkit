@@ -2,10 +2,10 @@
 
 ## What this is
 
-A full-stack web app (FastAPI + React/Vite/TypeScript/Tailwind/shadcn/ui)
+A client-side web app (React/Vite/TypeScript/Tailwind/shadcn/ui)
 for auditing, analyzing, and optimizing OpenCode config files.
 
-**Current status: Phase V in progress. Dashboard live — all 5 analyzers + landing page.**
+**Current status: Phase VI complete — client-side migration, all analyzers live with no backend.**
 
 ---
 
@@ -22,6 +22,7 @@ for auditing, analyzing, and optimizing OpenCode config files.
 | `docs/project/additional-files.md` | Why CHANGELOG/PHASES/DECISIONS belong |
 | `docs/knowledge/` | Copies of official OpenCode docs — read-only, don't edit |
 | `docs/library/` | Sample skills, commands, tools for reference |
+| `frontend/` | React + Vite + TypeScript application |
 | `opencode.json` | Project-specific OpenCode config |
 | `.opencode/` | Project-specific agents, commands, skills |
 | `AGENTS.md` | This file |
@@ -32,13 +33,11 @@ for auditing, analyzing, and optimizing OpenCode config files.
 
 ## Dev environment
 
-- Python venv at `.devkit/` (Python 3.10, gitignored)
-- Activate: `source .devkit/bin/activate`
-- Backend dev server: `pnpm run dev:backend` (FastAPI on :8000)
-- Frontend dev server: `pnpm run dev:frontend` (Vite on :5173)
-- Both together: `pnpm run dev`
-- Lint: `pnpm run lint` (ruff + eslint)
-- Typecheck: `pnpm run typecheck` (mypy + tsc)
+- Node.js 22+ and pnpm 11+
+- Dev server: `pnpm run dev` (Vite on :5173)
+- Build: `pnpm run build` (static output in `frontend/dist/`)
+- Lint: `pnpm run lint` (eslint)
+- Typecheck: `pnpm run typecheck` (tsc)
 
 ---
 
@@ -79,11 +78,11 @@ Do this proactively — do not wait for the user to ask.
 ### Permissions
 
 Do not ask for permission on routine actions: edit, read, glob, grep, git,
-python3, mkdir, markdownlint, ruff, mypy, npm, npx, pnpm, tsc, eslint.
-Test/verify commands (lint, typecheck, format) are pre-granted.
+mkdir, npm, npx, pnpm, tsc, eslint.
+Test/verify commands (lint, typecheck) are pre-granted.
 
 Only ask for hazardous actions: removing files (`rm`, `rmdir`), installing
-packages (`pip install`, `pnpm add`), or running unfamiliar commands.
+packages (`pnpm add`), or running unfamiliar commands.
 The `opencode.json` already encodes these rules.
 
 ### Markdown quality
@@ -94,13 +93,11 @@ newline). Use the `markdown-lint` skill when writing or editing `.md` files.
 
 ### .gitignore hygiene
 
-After installing ANY new software package (pip install, pnpm add, etc.), check
+After installing ANY new software package (pnpm add, etc.), check
 whether new artifacts need to be added to `.gitignore`. Typical culprits:
 
 - `node_modules/` — every new pnpm/node project
 - `dist/`, `build/` — build output directories
-- `__pycache__/`, `.pytest_cache/`, `.mypy_cache/` — Python bytecode and tool
-  caches
 - `.env`, `.env.*` — environment files that may contain secrets
 - Lockfiles in unexpected locations
 

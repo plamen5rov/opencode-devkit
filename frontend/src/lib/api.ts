@@ -1,104 +1,80 @@
-import type {
-  ConfigAuditResponse,
-  ConfigDiffResponse,
-} from "@/types/config"
-import type { SkillAnalyzeResponse, SkillTemplateResponse } from "@/types/skill"
-import type {
-  CommandAnalyzeResponse,
-  MCPAnalyzeResponse,
-  ToolAnalyzeResponse,
-} from "@/types/phase4"
+import { auditConfig, computeDiff } from "@/lib/services/config-analyzer"
+import { analyzeSkill, getTemplates } from "@/lib/services/skill-analyzer"
+import { analyzeCommand } from "@/lib/services/command-analyzer"
+import { analyzeMCPServers } from "@/lib/services/mcp-analyzer"
+import { analyzeTools as doAnalyzeTools } from "@/lib/services/tool-analyzer"
+import { FEATURES, PHASES } from "@/lib/data/features"
+import type { ConfigDiffResult } from "@/types/config"
+import type { SkillTemplate } from "@/types/skill"
+import type { MCPServerReport, ToolPermissionReport } from "@/types/phase4"
 import type { DashboardResponse } from "@/types/dashboard"
 
-export async function auditConfig(raw: string): Promise<ConfigAuditResponse> {
-  const res = await fetch("/api/config/audit", {
-    method: "POST",
-    headers: { "Content-Type": "text/plain" },
-    body: raw,
-  })
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`Audit failed: ${res.status} ${text}`)
-  }
-  return res.json()
-}
+export { auditConfig }
 
-export async function diffConfig(
+export function diffConfig(
   original: Record<string, unknown>,
   modified: Record<string, unknown>,
-): Promise<ConfigDiffResponse> {
-  const res = await fetch("/api/config/diff", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ original, modified }),
-  })
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`Diff failed: ${res.status} ${text}`)
+): ConfigDiffResult {
+  return computeDiff(original, modified)
+}
+
+export { analyzeSkill }
+
+export function getSkillTemplates(): SkillTemplate[] {
+  return getTemplates()
+}
+
+export { analyzeCommand }
+
+export function analyzeMCP(configJson: string): {
+  servers: MCPServerReport[]
+  overallScore: number
+  serverCount: number
+} {
+  let mcpConfig: Record<string, unknown> | null = null
+  try {
+    const parsed = JSON.parse(configJson) as Record<string, unknown>
+    if (parsed.mcp && typeof parsed.mcp === "object" && !Array.isArray(parsed.mcp)) {
+      mcpConfig = parsed.mcp as Record<string, unknown>
+    } else if (
+      Object.values(parsed).some(
+        (v) => v && typeof v === "object" && !Array.isArray(v) && typeof (v as Record<string, unknown>).type === "string",
+      )
+    ) {
+      mcpConfig = parsed
+    }
+  } catch { /* parse failure handled by caller */ }
+  const { servers, overallScore } = analyzeMCPServers(mcpConfig)
+  return { servers, overallScore, serverCount: servers.length }
+}
+
+export function analyzeTools(configJson: string): {
+  tools: ToolPermissionReport[]
+  missingCritical: string[]
+  overallScore: number
+} {
+  let permissions: Record<string, unknown> | null = null
+  try {
+    const parsed = JSON.parse(configJson) as Record<string, unknown>
+    if (parsed.permission && typeof parsed.permission === "object" && !Array.isArray(parsed.permission)) {
+      permissions = parsed.permission as Record<string, unknown>
+    } else if (typeof parsed.bash === "string") {
+      permissions = parsed
+    }
+  } catch { /* parse failure handled by caller */ }
+  const { tools, missingCritical, overallScore } = doAnalyzeTools(permissions)
+  return { tools, missingCritical, overallScore }
+}
+
+export function getDashboard(): DashboardResponse {
+  return {
+    title: "OpenCode DevKit",
+    version: "0.1.0",
+    total_features: FEATURES.length,
+    implemented_features: FEATURES.filter((f) => f.implemented).length,
+    completed_phases: PHASES.filter((p) => p.status === "complete").length,
+    total_phases: PHASES.length,
+    features: FEATURES,
+    phases: PHASES,
   }
-  return res.json()
-}
-
-export async function analyzeSkill(
-  content: string,
-  filename: string = "SKILL.md",
-): Promise<SkillAnalyzeResponse> {
-  const formData = new FormData()
-  formData.append("content", content)
-  formData.append("filename", filename)
-  const res = await fetch("/api/skill/analyze", {
-    method: "POST",
-    body: formData,
-  })
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`Skill analysis failed: ${res.status} ${text}`)
-  }
-  return res.json()
-}
-
-export async function getSkillTemplates(): Promise<SkillTemplateResponse> {
-  const res = await fetch("/api/skill/templates")
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`Failed to fetch templates: ${res.status} ${text}`)
-  }
-  return res.json()
-}
-
-async function postForm<T>(url: string, fields: Record<string, string>): Promise<T> {
-  const formData = new FormData()
-  for (const [k, v] of Object.entries(fields)) {
-    formData.append(k, v)
-  }
-  const res = await fetch(url, { method: "POST", body: formData })
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`Request failed: ${res.status} ${text}`)
-  }
-  return res.json()
-}
-
-export function analyzeCommand(
-  content: string,
-  filename: string = "command.md",
-): Promise<CommandAnalyzeResponse> {
-  return postForm("/api/command/analyze", { content, filename })
-}
-
-export function analyzeMCP(configJson: string): Promise<MCPAnalyzeResponse> {
-  return postForm("/api/mcp/analyze", { content: configJson })
-}
-
-export function analyzeTools(configJson: string): Promise<ToolAnalyzeResponse> {
-  return postForm("/api/tool/analyze", { content: configJson })
-}
-
-export async function getDashboard(): Promise<DashboardResponse> {
-  const res = await fetch("/api/dashboard")
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`Dashboard fetch failed: ${res.status} ${text}`)
-  }
-  return res.json()
 }

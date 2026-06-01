@@ -5,17 +5,21 @@ Architecture decisions and rationale. Each entry records *what* was chosen,
 
 ---
 
-## Backend: FastAPI
+## Client-side only (no backend)
 
-**Date**: 2026-05-31
-**Reason**: Strong typing (Pydantic), API-first design, async support, and
-OpenAPI auto-generation align with the JSON-centric, API-heavy nature of the
-config analyzer.
+**Date**: 2026-06-01
+**Reason**: All analyzers are deterministic computation — no database, no
+secrets, no external API calls needed. Moving everything client-side eliminates:
 
-Alternatives considered:
+- A server to host and maintain
+- CORS configuration
+- Vite API proxy
+- Dual-language tooling (Python + TypeScript)
+- Virtual environment management
 
-- Django — too heavy for an API-only backend
-- Flask — less structured, manual OpenAPI setup
+The .git history retains the original FastAPI backend code.
+
+**Result**: Pure static site deployable to GitHub Pages via `pnpm run build`.
 
 ---
 
@@ -34,45 +38,6 @@ Alternatives considered:
 
 ---
 
-## Python venv location: `.devkit/`
-
-**Date**: 2026-05-31
-**Reason**: Distinct from the common `.venv/` name to avoid conflicts with
-OpenCode-managed venvs and to signal this is a devkit-specific environment.
-
----
-
-## Knowledge docs: `docs/knowledge/` (not root `knowledge/`)
-
-**Date**: 2026-05-31
-**Reason**: Per project spec; keeps all documentation under a single `docs/`
-tree for simpler navigation and tooling.
-
----
-
-## Changelog: `DONE.md` (not `CHANGELOG.md`)
-
-**Date**: 2026-05-31
-**Reason**: Simpler, session-oriented logging. Conventional `CHANGELOG.md` can
-be added later if the project grows to need release-versioned changelogs.
-
----
-
-## Python packaging: `pyproject.toml` (not `requirements.txt`)
-
-**Date**: 2026-05-31
-**Reason**: Single file for project metadata, dependencies (with dev groups via
-`[project.optional-dependencies]`), and tool configs (ruff, mypy, pytest) —
-replacing `setup.py`, `setup.cfg`, `requirements-dev.txt`, and separate tool
-config files.
-
-Alternatives considered:
-
-- `requirements.txt` — flat list only, requires separate files for dev deps
-  and tool configs; no project metadata support
-
----
-
 ## JS package manager: pnpm (not npm or yarn)
 
 **Date**: 2026-05-31
@@ -87,16 +52,37 @@ Alternatives considered:
 
 ---
 
-## Project layout: separate `backend/` and `frontend/` (not monorepo)
+## Changelog: `DONE.md` (not `CHANGELOG.md`)
 
 **Date**: 2026-05-31
-**Reason**: Only two applications — a Python backend and a JS frontend.
-Monorepo tools (Turborepo, Nx) add unnecessary complexity for this scale.
-A thin root `package.json` with convenience scripts keeps things simple
-while remaining easy to migrate to pnpm workspaces later.
+**Reason**: Simpler, session-oriented logging. Conventional `CHANGELOG.md` can
+be added later if the project grows to need release-versioned changelogs.
 
-Alternatives considered:
+---
 
-- Turborepo/Nx — powerful but heavy; requires JS-centric tooling that doesn't
-  benefit the Python backend
-- Full pnpm workspaces — overkill for two packages with different runtimes
+## Knowledge docs: `docs/knowledge/` (not root `knowledge/`)
+
+**Date**: 2026-05-31
+**Reason**: Per project spec; keeps all documentation under a single `docs/`
+tree for simpler navigation and tooling.
+
+---
+
+## Historical: Python decisions (FastAPI, pyproject.toml, venv)
+
+These decisions were made during Phases I-V when the project had a FastAPI
+backend. The backend was removed in Phase VI (2026-06-01) in favor of a
+client-side-only architecture. The following are kept for historical context:
+
+- **FastAPI** (2026-05-31): Strong typing (Pydantic), API-first design, async
+  support. Chosen because the project was originally a full-stack app. Removed
+  when the deterministic nature of all analyzers made a server unnecessary.
+
+- **pyproject.toml** (2026-05-31): Single file for project metadata,
+  dependencies, and tool configs. Superseded by `package.json` after migration.
+
+- **venv location `.devkit/`** (2026-05-31): Distinct from `.venv/` to avoid
+  conflicts. Removed along with the Python backend.
+
+- **Separate `backend/` and `frontend/` layout** (2026-05-31): Kept Python
+  and JS independent. Simplified to a single frontend directory in Phase VI.

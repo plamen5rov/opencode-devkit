@@ -27,7 +27,7 @@ export function ConfigAnalyzer() {
   const [copied, setCopied] = useState(false)
   const [content, setContent] = useState("")
 
-  const handleAnalyze = useCallback(async (text: string) => {
+  const handleAnalyze = useCallback((text: string) => {
     setError(null)
     setResult(null)
     setDiffResult(null)
@@ -40,25 +40,24 @@ export function ConfigAnalyzer() {
 
     setLoading(true)
     try {
-      const res = await auditConfig(text)
-      setResult(res.result)
+      const result = auditConfig(text)
+      setResult(result)
 
-      if (!res.result.is_valid_jsonc) {
-        setError("Invalid JSON/JSONC: " + res.result.validation_errors.join(", "))
+      if (!result.is_valid_jsonc) {
+        setError("Invalid JSON/JSONC: " + result.validation_errors.join(", "))
+        setLoading(false)
         return
       }
 
-      if (res.result.optimized_config && Object.keys(res.result.optimized_config).length > 0) {
+      if (result.optimized_config && Object.keys(result.optimized_config).length > 0) {
         try {
           const original = JSON.parse(text)
-          const diffRes = await diffConfig(original, res.result.optimized_config)
-          setDiffResult(diffRes.result)
+          const diffResult = diffConfig(original, result.optimized_config)
+          setDiffResult(diffResult)
         } catch {
           setDiffResult(null)
         }
       }
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Analysis failed")
     } finally {
       setLoading(false)
     }

@@ -21,7 +21,7 @@ export function CommandAnalyzer() {
   const [content, setContent] = useState("")
   const [filename, setFilename] = useState("command.md")
 
-  const handleAnalyze = useCallback(async () => {
+  const handleAnalyze = useCallback(() => {
     setError(null)
     setReport(null)
     if (!content.trim()) {
@@ -30,10 +30,8 @@ export function CommandAnalyzer() {
     }
     setLoading(true)
     try {
-      const res = await analyzeCommand(content, filename)
-      setReport(res.report)
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Analysis failed")
+      const report = analyzeCommand(content, filename)
+      setReport(report)
     } finally {
       setLoading(false)
     }

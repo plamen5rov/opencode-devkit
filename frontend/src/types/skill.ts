@@ -15,11 +15,11 @@ export interface NameValidation {
 export interface FrontmatterReport {
   present: boolean
   valid_yaml: boolean
-  parse_error: string | null
+  parse_error?: string | null
   fields: SkillFrontmatter
-  name_validation: NameValidation
-  missing_required: string[]
-  unknown_fields: string[]
+  name_validation?: NameValidation
+  missing_required?: string[]
+  unknown_fields?: string[]
 }
 
 export interface ContentQualityReport {
